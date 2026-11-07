@@ -482,7 +482,7 @@ function render(D){
   const left=bsum-paid-planned;
   const name=id=>id==="kjop"?"Kjøp":(D.budget.find(b=>b.id===id)?.name||id);
   const sec=document.createElement("section");sec.id="okonomi";
-  sec.innerHTML=`<div class="adm-bar"><h2>Økonomi</h2><button class="btn" type="button" id="adm-out">Lås igjen</button></div>
+  sec.innerHTML=`<div class="adm-bar"><h2>Økonomi</h2><span style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn primary" href="https://claude.ai/artifact/T9spgYVtR6XMgmamxBYd3D#ny-utgift" target="_blank" rel="noopener">+ Legg til utgift</a><button class="btn" type="button" id="adm-out">Lås igjen</button></span></div>
   <div class="hero"><small>Forventet fortjeneste før skatt</small><div class="v">${kr(profit)}</div>
     <small>${mal?(profit>=mal?`${kr(profit-mal)} over målet på ${kr(mal)}`:`${kr(mal-profit)} igjen til målet på ${kr(mal)}`):""} · Per person ${kr(profit/2)}</small></div>
   <div class="kpis">
