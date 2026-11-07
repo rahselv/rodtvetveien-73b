@@ -49,6 +49,11 @@ details.old img{display:block;width:100%;max-width:520px;margin-top:10px;border-
 .tasks li:first-child{border-top:0;padding-top:0}
 .tasks li small{color:var(--muted);font-size:13px}
 .tag{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--pine)}
+.tasks li .mf{justify-self:start;margin-top:6px;font:600 12.5px var(--body);border:1px solid var(--pine);color:var(--pine);background:transparent;border-radius:8px;padding:5px 10px;cursor:pointer}
+.tasks li.is-done{color:var(--muted)}
+.done-b{justify-self:start;font-size:11.5px;font-weight:700;color:var(--pine-ink);background:var(--pine);border-radius:99px;padding:2px 9px;margin-bottom:2px}
+.done-imgs{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.done-imgs img{width:84px;height:64px;object-fit:cover;border-radius:6px;display:block}
 
 /* rooms */
 .rooms{display:grid;gap:12px}
@@ -219,6 +224,7 @@ textarea{min-height:76px;resize:vertical}
 <button type="button" role="tab" aria-selected="true" data-trade="snekker">Snekker</button>
 <button type="button" role="tab" aria-selected="false" data-trade="ror">Rørlegger</button>
 <button type="button" role="tab" aria-selected="false" data-trade="el">Elektriker</button>
+<button type="button" role="tab" aria-selected="false" data-trade="selv">Rahil og Emir</button>
 </div>
 <div class="card">
 <ul class="tasks" data-panel="snekker">
@@ -227,11 +233,18 @@ textarea{min-height:76px;resize:vertical}
 <li>Takkasser rundt hele stua, også over vinduene og balkongdøra<small>Med downlights i kassene. Ingen kasse over kjøkkenet, der går overskapene til taket.</small></li>
 <li>Takkasser rundt i soverom 1, 2 og 3, også over vinduene<small>Med downlights i kassene.</small></li>
 <li>Nedsenket himling i entré og gang</li>
-<li>Male innerdørene og kappe dem under</li>
 <li>Sparkle vegger i stue, soverom og gang<small>Maling: Marrakesh</small></li>
 <li>Laminat og nye lister i hele leiligheten<small>Nordkapp lys eik. Laminatet er kjøpt. Vi kjøper listene.</small></li>
-<li>Garderobeskap i soverommene</li>
-<li><span class="tag">Åpent</span>Rive det gamle kjøkkenet og montere det nye<small>Kvik-kjøkkenet er 3,40 m langt. Kjøkkenmontering er ikke med i Dema-avtalen, så vi avklarer hvem som tar det.</small></li>
+<li data-done="1">Rive det gamle kjøkkenet</li>
+<li><span class="tag">Åpent</span>Montere det nye kjøkkenet<small>Kvik-kjøkkenet er 3,40 m langt. Kjøkkenmontering er ikke med i Dema-avtalen, så vi avklarer hvem som tar det.</small></li>
+</ul>
+<ul class="tasks" data-panel="selv" hidden>
+<li>Male innerdørene og kappe dem under</li>
+<li>Fikse rammene rundt dørene</li>
+<li>Kjøpe og sette opp garderobeskap i soverommene</li>
+<li>Male vegger og tak<small>Marrakesh. Etter at snekker har sparklet, før laminat og lister.</small></li>
+<li>Kjøpe lister</li>
+<li>Finne noen som kobler ventilatoren til avtrekket</li>
 </ul>
 <ul class="tasks" data-panel="ror" hidden>
 <li><span class="tag">Bad</span>Rive og bygge opp på nytt<small>Våtromsplater, membran, nytt sluk og riktig fall. Veggene fores ut så rør og ledninger skjules.</small></li>
@@ -251,7 +264,7 @@ textarea{min-height:76px;resize:vertical}
 <li><span class="tag">Stue</span>Downlights jevnt fordelt i takkassene rundt hele stua, også over vinduene<small>Antall avklares på stedet. Ingen spotter over kjøkkenet. Stikkontakter til TV på langveggen mot entréen.</small></li>
 <li><span class="tag">Kjøkken</span>Kurser til kombiskap, ovn, koketopp, oppvaskmaskin og ventilator<small>LED-stripe kun under overskapene, ikke lys i sokkelen.</small></li>
 <li><span class="tag">Soverom 3</span>Fjerne gamle kjøkkenkurser og komfyruttak der det gamle kjøkkenet var</li>
-<li><span class="tag">Åpent</span>Hvem kobler ventilatoren til avtrekket?<small>Vi trenger noen som kobler ventilatoren i det nye kjøkkenet til avtrekk/kanal. Kan du ta det, send oss et spørsmål.</small></li>
+<li><span class="tag">Åpent</span>Ventilatoren skal kobles til avtrekket<small>Vi leter etter noen som kan ta det. Kan du gjøre det, send oss et spørsmål.</small></li>
 <li><span class="tag">Soverom</span>Downlights i takkassene og 2 stikkontakter på ulike vegger, i alle tre<small>Ingen taklampe midt i rommet. Antall downlights avklares på stedet.</small></li>
 <li><span class="tag">Soverom 3</span>Lysbryter ved den nye døra</li>
 </ul>
@@ -300,7 +313,7 @@ textarea{min-height:76px;resize:vertical}
 <li>Ca. 5 cm passbit mellom dørkarmen og kjøkkenets høyskap</li>
 <li>Døra fra entréen til stua flyttes 60 cm for en mer åpen løsning</li>
 <li>Rammene rundt dørene fikser Rahil og Emir selv</li>
-<li>Alle innerdører males og kappes under</li></ul>
+<li>Alle innerdører males og kappes under av Rahil og Emir</li></ul>
 <h3 style="margin-top:14px">Tak og lys</h3><ul>
 <li>Stue: takkasser rundt hele rommet, også over vinduene og balkongdøra, med downlights jevnt fordelt</li>
 <li>Ingen kasse eller spotter over kjøkkenet. LED-stripe under overskapene</li>
@@ -338,7 +351,7 @@ textarea{min-height:76px;resize:vertical}
 <li>Sparkling av vegger i stue, soverom og gang</li>
 <li>Maling: Marrakesh</li>
 <li>Soverom 1: garderobe rett ved døra, seng midt i rommet med hodegavl mot langveggen</li>
-<li>Garderobeskap i soverom</li></ul>
+<li>Garderobeskap i soverom: Rahil og Emir kjøper og setter opp</li></ul>
 </details>
 <details><summary>Annet</summary><ul>
 <li><b>Vi trenger noen som river det gamle kjøkkenet og monterer det nye</b> (3,40 m, Kvik). Det er ikke med i Dema-avtalen</li>
@@ -352,6 +365,7 @@ textarea{min-height:76px;resize:vertical}
 <div class="tabs" role="tablist" style="margin:0">
 <button type="button" role="tab" aria-selected="true" data-mtab="status">Kommer / går</button>
 <button type="button" role="tab" aria-selected="false" data-mtab="q">Spørsmål</button>
+<button type="button" role="tab" aria-selected="false" data-mtab="done">Meld ferdig</button>
 </div>
 <div class="two">
 <label class="f">Navn<input id="navn" autocomplete="name" placeholder="Ditt navn"></label>
@@ -380,6 +394,12 @@ textarea{min-height:76px;resize:vertical}
 </div>
 <label class="f">Spørsmål<textarea id="sporsmal" placeholder="Legg gjerne ved bilde når meldingen åpner seg"></textarea></label>
 </div>
+<div id="m-done" hidden style="display:grid;gap:12px">
+<label class="f">Oppgave<select id="oppgave"></select></label>
+<label class="f">Ferdig dato<input type="date" id="ferdigdato"></label>
+<label class="f">Kommentar (valgfritt)<textarea id="ferdigkomm" placeholder="F.eks. hva som er gjort, eller noe vi må vite"></textarea></label>
+<p class="hint" style="margin:0"><b>Legg ved bilder</b> av det ferdige arbeidet når meldingen åpner seg.</p>
+</div>
 <div class="preview" id="preview" aria-live="polite"></div>
 <div class="send" id="send">
 <a class="btn primary" id="sms-both">Send SMS til Rahil og Emir</a>
@@ -400,6 +420,9 @@ function tekst(){
   const navn=$("navn").value.trim()||"(navn mangler)",fag=$("fag").value;
   if(mtab==="status"){const st=document.querySelector('input[name="st"]:checked').value,k=$("komm").value.trim();
     return `Rødtvetveien 73B – ${st}\n${navn}, ${fag}\n${klokke()}\nNøkkel: ${$("nokkel").value}`+(k?`\n${k}`:"");}
+  if(mtab==="done"){const d=$("ferdigdato").value,k=$("ferdigkomm").value.trim();
+    const dd=d?new Date(d+"T12:00").toLocaleDateString("nb-NO",{day:"numeric",month:"long",year:"numeric"}):"(dato)";
+    return `Rødtvetveien 73B – FERDIG: ${$("oppgave").value||"(velg oppgave)"}\nFra ${navn}, ${fag}\nFerdig: ${dd}`+(k?`\n${k}`:"")+`\nBilder vedlagt`;}
   return `${$("haster").value}Spørsmål Rødtvetveien 73B (${$("rom").value})\nFra ${navn}, ${fag}\n${$("sporsmal").value.trim()||"(skriv spørsmålet)"}`;
 }
 const sms=(n,b)=>ios?`sms:/open?addresses=${n.join(",")}&body=${encodeURIComponent(b)}`:`sms:${n.join(",")}?body=${encodeURIComponent(b)}`;
@@ -407,7 +430,32 @@ const wa=(n,b)=>`https://wa.me/${n.slice(1)}?text=${encodeURIComponent(b)}`;
 function oppdater(){const b=tekst();$("preview").textContent=b;
   $("sms-both").href=sms([R,E],b);$("sms-r").href=sms([R],b);$("sms-e").href=sms([E],b);$("wa-r").href=wa(R,b);$("wa-e").href=wa(E,b);}
 function setM(t){mtab=t;document.querySelectorAll("[data-mtab]").forEach(x=>x.setAttribute("aria-selected",x.dataset.mtab===t));
-  $("m-status").hidden=t!=="status";$("m-q").hidden=t!=="q";$("dlg-h").textContent=t==="q"?"Still et spørsmål":"Varsle oss";oppdater();}
+  $("m-status").hidden=t!=="status";$("m-q").hidden=t!=="q";$("m-done").hidden=t!=="done";
+  $("dlg-h").textContent=t==="q"?"Still et spørsmål":t==="done"?"Meld ferdig":"Varsle oss";oppdater();}
+const iDag=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+const fagNavn={snekker:"Snekker",ror:"Rørlegger",el:"Elektriker",selv:"Rahil og Emir"};
+const tittel=li=>{const c=li.cloneNode(true);c.querySelectorAll("small,.tag,.done-b,.mf").forEach(x=>x.remove());return c.textContent.trim()};
+const slug=s=>s.toLowerCase().normalize("NFD").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60);
+const oppgaver=[];
+document.querySelectorAll("ul.tasks").forEach(ul=>ul.querySelectorAll("li").forEach(li=>{
+  const t=tittel(li),fag=fagNavn[ul.dataset.panel]||"",id=slug(fag+" "+t);li.dataset.id=id;
+  if(li.dataset.done){li.insertAdjacentHTML("afterbegin",'<span class="done-b">✓ Ferdig</span>');li.classList.add("is-done");return}
+  if(li.querySelector(".tag")?.textContent==="Åpent")return;
+  oppgaver.push({id,label:(fag?fag+": ":"")+t});
+  const b=document.createElement("button");b.type="button";b.className="mf";b.textContent="Meld ferdig";
+  b.addEventListener("click",()=>{setM("done");$("oppgave").value=(fag?fag+": ":"")+t;oppdater();dlg.showModal?dlg.showModal():dlg.setAttribute("open","")});
+  li.appendChild(b);
+}));
+$("oppgave").innerHTML='<option value="">Velg oppgave</option>'+oppgaver.map(o=>`<option>${o.label.replace(/</g,"&lt;")}</option>`).join("");
+$("ferdigdato").value=iDag();
+fetch("status.json",{cache:"no-store"}).then(r=>r.ok?r.json():{}).then(st=>{
+  document.querySelectorAll("ul.tasks li[data-id]").forEach(li=>{const s=st[li.dataset.id];if(!s||li.classList.contains("is-done"))return;
+    li.classList.add("is-done");li.querySelector(".mf")?.remove();
+    const d=s.dato?" "+new Date(s.dato+"T12:00").toLocaleDateString("nb-NO",{day:"numeric",month:"short"}):"";
+    li.insertAdjacentHTML("afterbegin",`<span class="done-b">✓ Ferdig${d}</span>`);
+    if(s.bilder&&s.bilder.length)li.insertAdjacentHTML("beforeend",`<span class="done-imgs">${s.bilder.map(b=>`<a href="${b}" target="_blank" rel="noopener"><img src="${b}" alt="Bilde av ferdig arbeid" loading="lazy"></a>`).join("")}</span>`);
+  });
+}).catch(()=>{});
 document.querySelectorAll("[data-open]").forEach(b=>b.addEventListener("click",()=>{setM(b.dataset.open);dlg.showModal?dlg.showModal():dlg.setAttribute("open","")}));
 document.querySelectorAll("[data-mtab]").forEach(b=>b.addEventListener("click",()=>setM(b.dataset.mtab)));
 dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
