@@ -424,4 +424,101 @@ oppdater();
 })();
 </script>
 
+<style>
+/* Admin: hidden economy for Rahil and Emir, decrypted in the browser with a password. */
+.adm-foot{max-width:860px;margin:-40px auto 40px;padding:0 16px;text-align:center}
+.adm-foot button{background:none;border:0;color:var(--muted);font:600 12.5px var(--body);text-decoration:underline;cursor:pointer;padding:8px}
+#okonomi{display:grid;gap:14px}
+#okonomi .hero{background:var(--pine);color:var(--pine-ink);border-radius:16px;padding:20px;display:grid;gap:6px}
+#okonomi .hero .v{font:500 clamp(30px,7vw,44px)/1.1 ui-monospace,Menlo,monospace;letter-spacing:-.03em}
+#okonomi .hero small{opacity:.8}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+.kpi b{display:block;font:500 17px ui-monospace,Menlo,monospace}
+.kpi span{font-size:12px;color:var(--muted)}
+.rows{display:grid}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;padding:10px 0;border-top:1px solid var(--line)}
+.row:first-child{border-top:0;padding-top:0}
+.row .n{font-weight:600}
+.row .s{font-size:12.5px;color:var(--muted);grid-column:1/-1}
+.row .a{font:500 14px ui-monospace,Menlo,monospace;text-align:right}
+.row.tot{border-top:2px solid var(--ink);font-weight:700}
+.over{color:#c0503c}
+.adm-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.adm-err{color:#c0503c;font-size:13px;margin:0;min-height:1em}
+</style>
+<div class="adm-foot"><button type="button" id="adm-open">Admin</button></div>
+<dialog id="adm-dlg" aria-labelledby="adm-h"><form class="dlg" id="adm-form">
+<div class="dlg-head"><h2 id="adm-h">Kun for Rahil og Emir</h2><button class="x" type="button" id="adm-x" aria-label="Lukk">×</button></div>
+<label class="f">Passord<input id="adm-pw" type="password" autocomplete="current-password" required></label>
+<p class="adm-err" id="adm-err" aria-live="polite"></p>
+<button class="btn primary" type="submit" id="adm-go">Åpne økonomi</button>
+</form></dialog>
+<script>
+(()=>{
+const $=id=>document.getElementById(id),dlg=$("adm-dlg");
+const kr=v=>Math.round(v||0).toLocaleString("nb-NO")+" kr";
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function decrypt(pw){
+  const box=await (await fetch("okonomi.json",{cache:"no-store"})).json();
+  const base=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveKey"]);
+  const key=await crypto.subtle.deriveKey({name:"PBKDF2",salt:b64(box.salt),iterations:box.iter,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["decrypt"]);
+  const pt=await crypto.subtle.decrypt({name:"AES-GCM",iv:b64(box.iv)},key,b64(box.ct));
+  return JSON.parse(new TextDecoder().decode(pt));
+}
+function render(D){
+  const s=D.settings,n=v=>Number(v)||0,m=n(s.maneder);
+  const per={};D.budget.forEach(p=>per[p.id]={paid:0,planned:0});
+  let paid=0,planned=0;
+  D.entries.forEach(x=>{if(x.post==="kjop"||x.type==="overforing")return;const a=n(x.amount);per[x.post]??={paid:0,planned:0};
+    if(x.type==="planlagt"){per[x.post].planned+=a;planned+=a}else{per[x.post].paid+=a;paid+=a}});
+  const bsum=D.budget.reduce((a,p)=>a+n(p.amount),0),reno=Math.max(bsum,paid+planned);
+  const costs=[["Kjøpesum",n(s.kjopesum)],["Dokumentavgift",n(s.dokavgift)],["Oppussing",reno],[`Lån, ${m} mnd`,n(s.lanekostMnd)*m],[`Felleskost, ${m} mnd`,n(s.felleskostMnd)*m],["Salgskostnader",n(s.salgskost)]];
+  const salg=n(s.salgspris),cost=costs.reduce((a,c)=>a+c[1],0),profit=salg-cost,mal=n(s.mal);
+  const w={Rahil:0,Emir:0};
+  D.entries.forEach(x=>{if(x.type==="planlagt")return;const a=n(x.amount);
+    if(x.type==="overforing"){w[x.by]=(w[x.by]||0)+a;const o=x.by==="Rahil"?"Emir":"Rahil";w[o]-=a}else if(x.by in w)w[x.by]+=a});
+  let save=0;D.spare.forEach(x=>{const bp=D.budget.find(b=>b.id===x.budget);const ny=x.budget?n(bp?.amount):n(x.nypris);save+=Math.max(0,ny-n(x.finnpris))});
+  const left=bsum-paid-planned;
+  const name=id=>id==="kjop"?"Kjøp":(D.budget.find(b=>b.id===id)?.name||id);
+  const sec=document.createElement("section");sec.id="okonomi";
+  sec.innerHTML=`<div class="adm-bar"><h2>Økonomi</h2><button class="btn" type="button" id="adm-out">Lås igjen</button></div>
+  <div class="hero"><small>Forventet fortjeneste før skatt</small><div class="v">${kr(profit)}</div>
+    <small>${mal?(profit>=mal?`${kr(profit-mal)} over målet på ${kr(mal)}`:`${kr(mal-profit)} igjen til målet på ${kr(mal)}`):""} · Per person ${kr(profit/2)}</small></div>
+  <div class="kpis">
+    <div class="kpi"><span>Salgspris</span><b>${kr(salg)}</b></div>
+    <div class="kpi"><span>Oppussing (budsjett)</span><b>${kr(bsum)}</b></div>
+    <div class="kpi"><span>Betalt</span><b>${kr(paid)}</b></div>
+    <div class="kpi"><span>Avtalt, ikke betalt</span><b>${kr(planned)}</b></div>
+    <div class="kpi"><span>Igjen av budsjett</span><b class="${left<0?"over":""}">${kr(left)}</b></div>
+    <div class="kpi"><span>Spareplan (ikke regnet med)</span><b>+${kr(save)}</b></div>
+  </div>
+  <div class="card"><h3>Hvor salgssummen går</h3><div class="rows" style="margin-top:8px">${costs.map(([l,v])=>`<div class="row"><span>${esc(l)}</span><span class="a">${kr(v)}</span></div>`).join("")}<div class="row tot"><span>Fortjeneste</span><span class="a ${profit<0?"over":""}">${kr(profit)}</span></div></div></div>
+  <div class="card"><h3>Budsjett per post</h3><div class="rows" style="margin-top:8px">${D.budget.map(p=>{const u=per[p.id]||{paid:0,planned:0},l=n(p.amount)-u.paid-u.planned;
+    return `<div class="row"><span class="n">${esc(p.name)}</span><span class="a">${kr(p.amount)}</span><span class="s">Betalt ${kr(u.paid)}${u.planned?` · avtalt ${kr(u.planned)}`:""} · <span class="${l<0?"over":""}">${l<0?"over med":"igjen"} ${kr(Math.abs(l))}</span>${p.note?` · ${esc(p.note)}`:""}</span></div>`}).join("")}
+    <div class="row tot"><span>Sum oppussing</span><span class="a">${kr(bsum)}</span></div></div></div>
+  <div class="card"><h3>Betalinger</h3><div class="rows" style="margin-top:8px">${D.entries.slice().sort((a,b)=>(a.type==="planlagt")-(b.type==="planlagt")||(a.date||"9").localeCompare(b.date||"9")).map(x=>`<div class="row"><span class="n">${esc(x.desc)}</span><span class="a">${kr(x.amount)}</span><span class="s">${esc(x.by)} · ${x.type==="planlagt"?"Avtalt":x.type==="overforing"?"Overføring":"Betalt"}${x.date?" · "+esc(x.date):""} · ${esc(name(x.post))}${x.note?" · "+esc(x.note):""}</span></div>`).join("")}</div></div>
+  <div class="card"><h3>Hvem har lagt inn hva</h3><div class="rows" style="margin-top:8px"><div class="row"><span class="n">Rahil</span><span class="a">${kr(w.Rahil)}</span></div><div class="row"><span class="n">Emir</span><span class="a">${kr(w.Emir)}</span></div></div>
+    <p class="note">Egne innskudd uten lån. Overføringer mellom dere teller for den som sender.</p></div>
+  <p class="note">Tallene er hentet fra kalkylen ${esc(D.updated)}. Endringer gjøres i kalkylen og legges inn her på nytt.</p>`;
+  const old=$("okonomi");if(old)old.remove();
+  document.querySelector(".wrap header").after(sec);
+  $("adm-out").addEventListener("click",()=>{try{sessionStorage.removeItem("73b-adm")}catch(e){}location.reload()});
+}
+async function open(pw,quiet){
+  $("adm-err").textContent=quiet?"":"Åpner …";$("adm-go").disabled=true;
+  try{const D=await decrypt(pw);render(D);try{sessionStorage.setItem("73b-adm",pw)}catch(e){}if(dlg.open)dlg.close();$("adm-pw").value="";
+    $("okonomi").scrollIntoView({behavior:"smooth"})}
+  catch(e){if(!quiet)$("adm-err").textContent="Feil passord.";}
+  finally{$("adm-go").disabled=false}
+}
+$("adm-open").addEventListener("click",()=>{$("adm-err").textContent="";dlg.showModal?dlg.showModal():dlg.setAttribute("open","");$("adm-pw").focus()});
+$("adm-x").addEventListener("click",()=>dlg.close());
+dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
+$("adm-form").addEventListener("submit",e=>{e.preventDefault();open($("adm-pw").value,false)});
+try{const pw=sessionStorage.getItem("73b-adm");if(pw)open(pw,true)}catch(e){}
+})();
+</script>
+
 </body></html>
