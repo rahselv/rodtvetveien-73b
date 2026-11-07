@@ -1,0 +1,424 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..800&family=Public+Sans:wght@400;600&display=swap">
+<style>
+/* Layout: sticky top bar with "Varsle oss"; then plan, tasks per trade (tabs), room by room, and collapsed fine print. */
+:root{--bg:#f6f5f1;--surface:#fff;--ink:#1b211f;--muted:#5f6763;--line:#e2e0da;--pine:#1f6b55;--pine-ink:#fff;--soft:#eef4f1;
+--display:"Archivo",system-ui,sans-serif;--body:"Public Sans",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121615;--surface:#1a201e;--ink:#e8ecea;--muted:#9aa49f;--line:#2b3431;--pine:#6cc2a4;--pine-ink:#0f1a16;--soft:#1d2a25;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121615;--surface:#1a201e;--ink:#e8ecea;--muted:#9aa49f;--line:#2b3431;--pine:#6cc2a4;--pine-ink:#0f1a16;--soft:#1d2a25;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--body)}
+h1,h2,h3{font-family:var(--display);margin:0;font-stretch:112%;text-wrap:balance}
+h1{font-size:clamp(26px,5vw,36px);font-weight:800;line-height:1.1}
+h2{font-size:20px;font-weight:700} h3{font-size:16px;font-weight:700}
+a{color:inherit}
+.muted{color:var(--muted)}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px 72px;display:grid;gap:40px}
+
+/* top bar */
+.bar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar .in{max-width:860px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+.bar b{font-family:var(--display);font-size:15px;font-stretch:112%;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn{font:600 14px var(--body);border-radius:10px;padding:10px 14px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
+.btn.primary{background:var(--pine);border-color:var(--pine);color:var(--pine-ink)}
+
+/* header */
+header{padding-top:28px;display:grid;gap:14px}
+.eyebrow{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.people{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+.person{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.person small{display:block;color:var(--muted);font-size:12.5px}
+.person a{font-weight:600;text-decoration:none;color:var(--pine);white-space:nowrap}
+
+section>h2{margin-bottom:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+.note{font-size:13px;color:var(--muted);margin:10px 0 0}
+
+/* plan */
+.plan svg{width:100%;height:auto;display:block;max-height:640px}
+details.old{margin-top:12px}
+details summary{cursor:pointer;font-weight:600;color:var(--pine)}
+details.old img{display:block;width:100%;max-width:520px;margin-top:10px;border-radius:8px}
+
+/* trades */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tabs button{font:600 14px var(--body);border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 16px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--pine);border-color:var(--pine);color:var(--pine-ink)}
+.tasks{list-style:none;margin:0;padding:0;display:grid}
+.tasks li{padding:11px 0;border-top:1px solid var(--line);display:grid;gap:2px}
+.tasks li:first-child{border-top:0;padding-top:0}
+.tasks li small{color:var(--muted);font-size:13px}
+.tag{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--pine)}
+
+/* rooms */
+.rooms{display:grid;gap:12px}
+.room{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.room summary{list-style:none;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;font-family:var(--display);font-weight:700;font-size:16px;font-stretch:112%;color:var(--ink)}
+.room summary::-webkit-details-marker{display:none}
+.room summary::after{content:"+";font:400 22px var(--body);color:var(--muted)}
+.room[open] summary::after{content:"–"}
+.room .body{padding:0 18px 18px;display:grid;gap:12px}
+.room ul{margin:0;padding-left:18px;display:grid;gap:4px}
+.imgs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.imgs figure{margin:0;display:grid;gap:4px}
+.imgs img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:10px;display:block}
+figcaption{font-size:12.5px;color:var(--muted)}
+
+/* fine print */
+.fine{display:grid;gap:12px}
+.fine details{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 18px}
+.fine ul{margin:10px 0 0;padding-left:18px;display:grid;gap:4px}
+.fine h3+ul{margin-top:6px}
+
+/* dialog */
+dialog{border:0;border-radius:16px;padding:0;width:min(520px,calc(100% - 24px));max-height:calc(100% - 24px);background:var(--surface);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+dialog::backdrop{background:rgba(10,14,12,.45)}
+.dlg{padding:20px;display:grid;gap:14px}
+.dlg-head{display:flex;justify-content:space-between;align-items:center}
+.x{border:0;background:none;font-size:26px;line-height:1;color:var(--muted);cursor:pointer;padding:4px 8px}
+label.f{display:grid;gap:4px;font-size:13px;font-weight:600}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%}
+textarea{min-height:76px;resize:vertical}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.seg label{border:1px solid var(--line);border-radius:10px;padding:10px 6px;text-align:center;font-weight:600;font-size:13.5px;cursor:pointer;background:var(--bg)}
+.seg label:has(input:checked){border-color:var(--pine);background:var(--soft);box-shadow:inset 0 0 0 1px var(--pine)}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.preview{white-space:pre-wrap;font-size:13px;background:var(--bg);border:1px dashed var(--line);border-radius:10px;padding:10px 12px;color:var(--muted)}
+.send{display:grid;gap:8px}
+.send .row{display:flex;gap:8px;flex-wrap:wrap}
+.send .row .btn{flex:1}
+.hint{font-size:12.5px;color:var(--muted);margin:0}
+@media (max-width:420px){.two{grid-template-columns:1fr}}
+</style>
+
+<div class="bar"><div class="in"><b>Rødtvetveien 73B</b>
+<button class="btn primary" type="button" data-open="status">Varsle oss</button>
+<button class="btn" type="button" data-open="q">Spørsmål</button></div></div>
+
+<div class="wrap">
+<header>
+<div class="eyebrow">Arbeidsunderlag · ombygging og bad</div>
+<h1>Rødtvetveien 73B, Oslo</h1>
+<p class="muted" style="margin:0">Trykk <b>Varsle oss</b> når du kommer og går, og si hvor nøkkelen er. Spørsmål sender du med <b>Spørsmål</b>.</p>
+<div class="people">
+<div class="person"><div>Rahil Soliman<small>Oppdragsgiver</small></div><a href="tel:+4793077305">930 77 305</a></div>
+<div class="person"><div>Emir Denizci<small>Oppdragsgiver</small></div><a href="tel:+4740171067">401 71 067</a></div>
+</div>
+</header>
+
+<section class="plan">
+<h2>Ny planløsning</h2>
+<div class="card">
+<svg viewBox="20 40 760 940" role="img" aria-label="Ny planløsning: tre soverom, kjøkken langs ny lettvegg i stua, bad med dusj, toalett, servant, høyskap og vaskemaskin">
+  <style>
+    .ext{fill:none;stroke:#222826;stroke-width:12;stroke-linecap:square}
+    .int{fill:none;stroke:#222826;stroke-width:5;stroke-linecap:square}
+    .new{fill:none;stroke:#1f6b55;stroke-width:8;stroke-linecap:square}
+    .dr{fill:none;stroke:#7b827e;stroke-width:1.2}
+    .drn{fill:none;stroke:#1f6b55;stroke-width:1.8}
+    .rl{font:700 15px 'Archivo',system-ui,sans-serif;letter-spacing:.06em;fill:#222826;text-anchor:middle}
+    .rs{font:500 11px 'Public Sans',system-ui,sans-serif;fill:#7b827e;text-anchor:middle}
+    .nl{font:600 11px 'Public Sans',system-ui,sans-serif;fill:#1f6b55;text-anchor:middle}
+    .fx{fill:#fff;stroke:#5c6460;stroke-width:1.2}
+    .sp{fill:#d4a35c}
+    .tk{fill:rgba(212,163,92,.10);stroke:#d4a35c;stroke-width:1.4;stroke-dasharray:5 4}
+  </style>
+  <rect x="20" y="40" width="760" height="940" fill="#fbfaf7"/>
+  <!-- balkong -->
+  <rect x="400" y="70" width="360" height="224" fill="#f0efeb" stroke="#c5c7c3" stroke-width="1.2" rx="4"/>
+  <text class="rs" x="580" y="186" style="letter-spacing:.12em">BALKONG</text>
+  <!-- rom -->
+  <rect x="40" y="300" width="210" height="360" fill="#f3ead8"/>
+  <rect x="250" y="300" width="150" height="280" fill="#f3ead8"/>
+  <rect x="460" y="760" width="300" height="200" fill="#f3ead8"/>
+  <rect x="250" y="580" width="150" height="180" fill="#f6f4ef"/>
+  <rect x="400" y="300" width="360" height="460" fill="#f6f4ef"/>
+  <rect x="250" y="760" width="210" height="200" fill="#e3edf3"/>
+  <!-- takkasser + spotter -->
+  <path class="tk" fill-rule="evenodd" d="M410 310H750V690H698V362H462V690H410Z"/>
+  <g class="sp"><circle cx="436" cy="336" r="4.5"/><circle cx="530" cy="336" r="4.5"/><circle cx="630" cy="336" r="4.5"/><circle cx="724" cy="336" r="4.5"/>
+  <circle cx="436" cy="430" r="4.5"/><circle cx="436" cy="525" r="4.5"/><circle cx="436" cy="620" r="4.5"/>
+  <circle cx="724" cy="430" r="4.5"/><circle cx="724" cy="525" r="4.5"/><circle cx="724" cy="620" r="4.5"/></g>
+  <text class="nl" x="580" y="390">takkasse rundt, også over vinduene</text>
+  <text class="nl" x="400" y="977" style="fill:#9a7a48">Gul stiplet = takkasse med downlights (stue og soverom)</text>
+  <!-- kjøkken langs ny lettvegg -->
+  <rect x="470" y="702" width="200" height="52" fill="#efe2cc" stroke="#9a7a48" stroke-width="1.2" rx="2"/>
+  <rect x="622" y="702" width="48" height="52" fill="#d9c29a" stroke="#9a7a48" stroke-width="1.2"/>
+  <path d="M626 706l40 44" stroke="#9a7a48" stroke-width=".8"/>
+  <path d="M526 702v52M574 702v52" stroke="#9a7a48" stroke-width=".8"/>
+  <rect x="580" y="712" width="36" height="32" rx="6" fill="#fff" stroke="#9a7a48" stroke-width="1"/>
+  <text class="rs" x="550" y="733" style="fill:#9a7a48;font-size:9px">OM</text>
+  <g fill="none" stroke="#9a7a48" stroke-width="1"><circle cx="488" cy="718" r="6"/><circle cx="507" cy="718" r="6"/><circle cx="488" cy="740" r="6"/><circle cx="507" cy="740" r="6"/></g>
+  <text class="rs" x="545" y="692" style="fill:#9a7a48;font-weight:700;letter-spacing:.1em">KJØKKEN</text>
+  <text class="rs" x="646" y="692" style="fill:#9a7a48;font-size:9.5px">kjøl/frys</text>
+  <!-- bad -->
+  <rect class="fx" x="258" y="880" width="72" height="72" rx="2"/><path d="M262 884l64 64" stroke="#b6c2c8" stroke-width="1"/>
+  <ellipse class="fx" cx="355" cy="928" rx="12" ry="16"/><rect class="fx" x="341" y="940" width="28" height="12" rx="2"/>
+  <rect class="fx" x="378" y="926" width="44" height="26" rx="5"/>
+  <line x1="380" y1="956" x2="420" y2="956" stroke="#5a7d9a" stroke-width="4" stroke-linecap="round"/>
+  <rect class="fx" x="428" y="910" width="26" height="42" rx="2"/>
+  <rect class="fx" x="414" y="818" width="40" height="40" rx="3"/><circle cx="434" cy="838" r="11" fill="none" stroke="#5c6460" stroke-width="1"/>
+  <text class="rs" x="294" y="872">dusj</text><text class="rs" x="400" y="918">servant</text><text class="rs" x="434" y="812">vask</text>
+  <g class="sp"><circle cx="300" cy="830" r="3.5"/><circle cx="350" cy="830" r="3.5"/><circle cx="300" cy="858" r="3.5"/><circle cx="350" cy="858" r="3.5"/></g>
+  <!-- entré downlights -->
+  <g class="sp"><circle cx="340" cy="628" r="4"/><circle cx="340" cy="672" r="4"/><circle cx="340" cy="716" r="4"/></g>
+  <!-- lamper -->
+  <!-- takkasser i soverommene -->
+  <path class="tk" fill-rule="evenodd" d="M50 310H240V650H50ZM90 350V610H200V350Z"/>
+  <path class="tk" fill-rule="evenodd" d="M260 310H390V570H260ZM296 346V534H354V346Z"/>
+  <path class="tk" fill-rule="evenodd" d="M470 770H750V950H470ZM508 808V912H712V808Z"/>
+  <g class="sp"><circle cx="70" cy="330" r="4"/><circle cx="220" cy="330" r="4"/><circle cx="70" cy="630" r="4"/><circle cx="220" cy="630" r="4"/><circle cx="70" cy="480" r="4"/><circle cx="220" cy="480" r="4"/>
+  <circle cx="278" cy="328" r="4"/><circle cx="372" cy="328" r="4"/><circle cx="278" cy="552" r="4"/><circle cx="372" cy="552" r="4"/>
+  <circle cx="489" cy="789" r="4"/><circle cx="610" cy="789" r="4"/><circle cx="731" cy="789" r="4"/><circle cx="489" cy="931" r="4"/><circle cx="610" cy="931" r="4"/><circle cx="731" cy="931" r="4"/></g>
+  <!-- stikkontakter, spredt -->
+  <g fill="#fff" stroke="#5c6460" stroke-width="1.2">
+    <path d="M47 395a7 7 0 0 1 0 14z"/><path d="M243 590a7 7 0 0 0 0 14z"/>
+    <path d="M257 340a7 7 0 0 1 0 14z"/><path d="M393 500a7 7 0 0 0 0 14z"/>
+    <path d="M467 900a7 7 0 0 1 0 14z"/><path d="M700 953a7 7 0 0 0 14 0z"/>
+  </g>
+  <!-- yttervegger -->
+  <path class="ext" d="M40 300H760V960H250V760M250 740V670M250 660H40V300"/>
+  <!-- vinduer og balkongdør -->
+  <g fill="#fbfaf7" stroke="#222826" stroke-width="1">
+    <rect x="80" y="295" width="120" height="10"/><rect x="280" y="295" width="90" height="10"/>
+    <rect x="520" y="295" width="120" height="10"/>
+    <rect x="755" y="400" width="10" height="150"/><rect x="755" y="640" width="10" height="80"/><rect x="755" y="800" width="10" height="110"/>
+  </g>
+  <!-- innervegger -->
+  <path class="int" d="M250 300V660M250 580H270M330 580H400M400 300V640M400 710V760M250 760H280M335 760H460M460 760V960"/>
+  <!-- ny lettvegg, dør i venstre ende -->
+  <path class="new" d="M460 760H676M748 760H760"/>
+  <!-- dører -->
+  <path class="dr" d="M270 580V524M330 580A56 56 0 0 0 272 524"/>
+  <path class="dr" d="M280 760V814M335 760A55 55 0 0 1 280 814"/>
+  <path class="dr" d="M250 740H316M250 674A66 66 0 0 1 316 740"/>
+  <path class="drn" d="M400 710H464M400 646A64 64 0 0 1 464 710"/>
+  <path class="drn" d="M746 760V824M682 760A64 64 0 0 0 746 824"/>
+  <!-- romnavn -->
+  <text class="rl" x="145" y="485">SOVEROM 1</text>
+  <text class="rl" x="325" y="450">SOVEROM 2</text>
+  <text class="rl" x="320" y="612" style="font-size:13px">ENTRÉ</text>
+  <text class="rl" x="580" y="470">STUE</text>
+  <text class="rl" x="388" y="800" style="font-size:13px">BAD</text>
+  <text class="rl" x="640" y="855">SOVEROM 3</text>
+  <text class="nl" x="640" y="873">nytt, i gamle kjøkken</text>
+  <!-- korte merknader for nytt -->
+  <text class="nl" x="565" y="782">ny lettvegg</text>
+  <text class="nl" x="712" y="842">dør inn</text>
+  <text class="nl" x="455" y="638">dør flyttet 60 cm</text>
+</svg>
+<p class="note">Grønt er nytt eller flyttet. Tegningen er en skisse og ikke målbar. Ta alle mål på stedet før bestilling.</p>
+<details class="old"><summary>Se planløsningen slik den er i dag</summary><img src="plantegning.png" alt="Planløsning i dag: 2 soverom, kjøkken i stua"></details>
+</div>
+</section>
+
+<section>
+<h2>Hva skal gjøres</h2>
+<div class="tabs" role="tablist">
+<button type="button" role="tab" aria-selected="true" data-trade="snekker">Snekker</button>
+<button type="button" role="tab" aria-selected="false" data-trade="ror">Rørlegger</button>
+<button type="button" role="tab" aria-selected="false" data-trade="el">Elektriker</button>
+</div>
+<div class="card">
+<ul class="tasks" data-panel="snekker">
+<li>Ny lettvegg på tvers av stua, mot soverom 3<small>Døra i enden ved vinduet. Ca. 10 cm vegg mot ytterveggen, hengsler mot ytterveggen. Ca. 5 cm passbit mot kjøkkenets høyskap.</small></li>
+<li>Flytte døra fra entré til stue 60 cm</li>
+<li>Takkasser rundt hele stua, også over vinduene og balkongdøra<small>Med downlights i kassene. Ingen kasse over kjøkkenet, der går overskapene til taket.</small></li>
+<li>Takkasser rundt i soverom 1, 2 og 3, også over vinduene<small>Med downlights i kassene.</small></li>
+<li>Nedsenket himling i entré og gang</li>
+<li>Fikse rammene rundt dørene</li>
+<li>Male innerdørene og kappe dem under</li>
+<li>Sparkle vegger i stue, soverom og gang<small>Maling: Marrakesh</small></li>
+<li>Laminat og nye lister i hele leiligheten<small>Nordkapp lys eik. Laminatet er kjøpt. Vi kjøper listene.</small></li>
+<li>Garderobeskap i soverommene</li>
+<li><span class="tag">Åpent</span>Rive det gamle kjøkkenet og montere det nye<small>Kvik-kjøkkenet er 3,40 m langt. Kjøkkenmontering er ikke med i Dema-avtalen, så vi avklarer hvem som tar det.</small></li>
+</ul>
+<ul class="tasks" data-panel="ror" hidden>
+<li><span class="tag">Bad</span>Rive og bygge opp på nytt<small>Våtromsplater, membran, nytt sluk og riktig fall. Veggene fores ut så rør og ledninger skjules.</small></li>
+<li><span class="tag">Bad</span>Nye vann- og avløpsrør<small>Sanipex rør-i-rør. Tilrettelegge for ventilasjon.</small></li>
+<li><span class="tag">Bad</span>Slukrenne i dusjen<small>Langs gulvet fra bakveggen og fremover, med fall mot renna. Ikke firkantet sluk i midten.</small></li>
+<li><span class="tag">Bad</span>Bakveggen fra venstre<small>Hjørnedusj ca. 80x80 med én rammeløs glassdør og ett fast glassfelt, vegghengt toalett med innebygd sisterne, servant med speil over, veggskap ca. 30 cm bredt og 120 cm høyt. Dusjbatteriet på bakveggen, samme vegg som toalettet.</small></li>
+<li><span class="tag">Bad</span>Vann og avløp til vaskemaskin på høyre vegg</li>
+<li><span class="tag">Bad</span>Sette opp baderomsinnredningen<small>Servant med skap, speil, veggskap, toalett og dusjvegg. Vi kjøper innredningen.</small></li>
+<li><span class="tag">Bad</span>Fliser 60x60, lys grå<small>Ikke valgt ennå. Vi kjøper fliser og baderomsmøbler.</small></li>
+<li><span class="tag">Kjøkken</span>Vann og avløp til vask og oppvaskmaskin, med Waterguard<small>Ny plassering langs lettveggen i stua.</small></li>
+<li><span class="tag">Soverom 3</span>Plugge vann og avløp der det gamle kjøkkenet var</li>
+</ul>
+<ul class="tasks" data-panel="el" hidden>
+<li>Bytte sikringsskap<small>Nytt skap med nok kurser til alt under.</small></li>
+<li><span class="tag">Bad</span>4 spotter, varmekabler, stikkontakt til vaskemaskin og lys i speil</li>
+<li><span class="tag">Entré</span>3 downlights i den nedsenkede himlingen</li>
+<li><span class="tag">Stue</span>Downlights jevnt fordelt i takkassene rundt hele stua, også over vinduene<small>Antall avklares på stedet. Ingen spotter over kjøkkenet. Stikkontakter til TV på langveggen mot entréen.</small></li>
+<li><span class="tag">Kjøkken</span>Kurser til kombiskap, ovn, koketopp, oppvaskmaskin og ventilator<small>LED-stripe kun under overskapene, ikke lys i sokkelen.</small></li>
+<li><span class="tag">Soverom 3</span>Fjerne gamle kjøkkenkurser og komfyruttak der det gamle kjøkkenet var</li>
+<li><span class="tag">Åpent</span>Hvem kobler ventilatoren til avtrekket?<small>Vi trenger noen som kobler ventilatoren i det nye kjøkkenet til avtrekk/kanal. Kan du ta det, send oss et spørsmål.</small></li>
+<li><span class="tag">Soverom</span>Downlights i takkassene og 2 stikkontakter på ulike vegger, i alle tre<small>Ingen taklampe midt i rommet. Antall downlights avklares på stedet.</small></li>
+<li><span class="tag">Soverom 3</span>Lysbryter ved den nye døra</li>
+</ul>
+</div>
+</section>
+
+<section>
+<h2>Rom for rom</h2>
+<div class="rooms">
+<details class="room"><summary>Bad</summary><div class="body">
+<ul><li>Vegger fores ut slik at rør og ledninger skjules</li><li>Fra venstre langs bakveggen: hjørnedusj ca. 80x80, vegghengt toalett, servant med speil over, lite veggskap (ca. 30 cm bredt, 120 cm høyt)</li><li>Dusj med én rammeløs glassdør og ett fast glassfelt. Dusjbatteri på bakveggen, samme vegg som toalettet</li><li>Slukrenne langs gulvet i dusjen, fra bakveggen og fremover, med fall mot renna</li><li>Vaskemaskin på høyre vegg: vann, avløp og stikkontakt</li><li>Nye fliser (60x60), varmekabler i gulv, 4 spotter i tak</li></ul>
+<div class="imgs"><figure><img src="rom-bad1-v2.jpg" alt="Badet sett fra døra, dusj med én glassdør" loading="lazy"><figcaption>Fra døra</figcaption></figure><figure><img src="rom-bad2-v2.jpg" alt="Dusjhjørnet med én glassdør og slukrenne" loading="lazy"><figcaption>Dusjen: én dør og slukrenne</figcaption></figure></div>
+</div></details>
+<details class="room"><summary>Kjøkken</summary><div class="body">
+<ul><li>Kjøkken fra Kvik langs den nye lettveggen i stua (tilbud SQ000364, Johan Sanna, Kvik Ski)</li><li><b>Kjøkkenet er 3,40 m langt</b></li><li>Fra døra til soverom 3 (ved vinduet) og innover: ca. 5 cm passbit, høyskap med integrert kjøl/frys, vask, oppvaskmaskin, koketopp med ovn under</li><li>Overskap til taket, ventilator integrert i overskap, LED-list under overskapene</li><li>Ventilatoren må kobles til avtrekk. Vi mangler fortsatt noen til dette</li><li>Ingen spotter i taket over kjøkkenet</li><li>Rørlegger: vann og avløp til vask og oppvaskmaskin, Waterguard</li><li>Elektriker: kurser til kombiskap, ovn, koketopp, oppvaskmaskin og ventilator. LED-stripe under overskapene</li><li>Kjøkkenmonteringen er ikke med i Dema-avtalen</li></ul>
+<div class="imgs"><figure><img src="rom-kjokken-i.jpg" alt="Valgt kjøkkenløsning" loading="lazy"><figcaption>Valgt løsning</figcaption></figure></div>
+</div></details>
+<details class="room"><summary>Stue</summary><div class="body">
+<ul><li>Ny lettvegg mellom stue og soverom 3. Døra står i enden ved vinduet, med ca. 10 cm vegg mot ytterveggen. Hengsler mot ytterveggen</li><li>Døra fra entréen til stua flyttes 60 cm for en mer åpen løsning</li><li>Takkasser rundt hele stua, også over vinduene og balkongdøra, med downlights jevnt fordelt</li><li>TV på langveggen mot entré og soverom 2 (motsatt av vinduene): stikkontakter og eventuelt trekkrør for kabler</li><li>Sparkling av vegger, laminat (lys eik) og lister</li></ul>
+<div class="imgs"><figure><img src="rom-stue1-v2.jpg" alt="Stua fra kjøkkenet mot balkongen, med takkasser rundt hele rommet" loading="lazy"><figcaption>Fra kjøkkenet mot balkongen</figcaption></figure><figure><img src="rom-stue2-v2.jpg" alt="Stua fra balkongen mot kjøkkenet, med takkasser rundt hele rommet" loading="lazy"><figcaption>Fra balkongen mot kjøkkenet</figcaption></figure></div>
+</div></details>
+<details class="room"><summary>Entré og gang</summary><div class="body">
+<ul><li>Nedsenket himling</li><li>3 downlights</li></ul>
+<div class="imgs"><figure><img src="rom-entre.jpg" alt="Entréen fra inngangsdøra" loading="lazy"><figcaption>Fra inngangsdøra</figcaption></figure><figure><img src="rom-entre-b.jpg" alt="Entréen mot inngangsdøra" loading="lazy"><figcaption>Mot inngangsdøra</figcaption></figure></div>
+</div></details>
+<details class="room"><summary>Soverom 1, 2 og 3</summary><div class="body">
+<ul><li>Alle soverom: takkasser rundt rommet, også over vinduet, med downlights</li><li>Alle soverom: 2 stikkontakter, spredt på ulike vegger</li><li>Soverom 1: garderobeskap rett ved døra, seng midt i rommet med hodegavl mot langveggen (tilgang fra begge sider), fri vindusende</li><li>Soverom 3: nytt rom i gamle kjøkken. Lysbryter ved døra</li><li>Dører males og kappes under</li></ul>
+<div class="imgs"><figure><img src="rom-sov1-v2.jpg" alt="Soverom 1 med takkasser og downlights rundt rommet" loading="lazy"><figcaption>Soverom 1</figcaption></figure><figure><img src="rom-sov2-v2.jpg" alt="Soverom 2 med takkasser og downlights rundt rommet" loading="lazy"><figcaption>Soverom 2</figcaption></figure><figure><img src="rom-sov3-v2.jpg" alt="Soverom 3 med takkasser og downlights rundt rommet" loading="lazy"><figcaption>Soverom 3</figcaption></figure></div>
+</div></details>
+</div>
+<p class="note">Bildene viser ønsket resultat og er ikke eksakte.</p>
+</section>
+
+<section class="fine">
+<h2>Godt å vite</h2>
+<details><summary>Avtalen med Dema (03.11.2026)</summary><ul>
+<li>Dema gjør bad og ombygging. Elektro er tatt ut, vi har egen elektriker</li>
+<li>Vi kjøper selv fliser, baderomsmøbler, laminat og lister</li>
+<li>Ikke med: maling av øvrige rom, kjøkkenmontering og balkong</li>
+<li>Ca. 6 uker fra oppstart. Naboer varsles med lapp ved inngangsdøra</li>
+<li>Endringer og tillegg avtales skriftlig før de utføres</li></ul></details>
+<details><summary>Alle detaljer og mål</summary>
+<h3 style="margin-top:14px">Ny lettvegg og dører</h3><ul>
+<li>Lettvegg på tvers av stua, mellom stua og soverom 3 (gamle kjøkken)</li>
+<li>Dør til soverom 3 i enden ved vinduet: ca. 10 cm vegg mellom ytterveggen og karmen, hengsler mot ytterveggen, døra legger seg mot ytterveggen når den åpnes</li>
+<li>Ca. 5 cm passbit mellom dørkarmen og kjøkkenets høyskap</li>
+<li>Døra fra entréen til stua flyttes 60 cm for en mer åpen løsning</li>
+<li>Rammene rundt dørene fikses av snekker</li>
+<li>Alle innerdører males og kappes under</li></ul>
+<h3 style="margin-top:14px">Tak og lys</h3><ul>
+<li>Stue: takkasser rundt hele rommet, også over vinduene og balkongdøra, med downlights jevnt fordelt</li>
+<li>Ingen kasse eller spotter over kjøkkenet. LED-stripe under overskapene</li>
+<li>Entré/gang: nedsenket himling med 3 downlights</li>
+<li>Bad: 4 spotter, sparkling og maling av tak</li>
+<li>Soverom 1, 2 og 3: takkasser rundt rommet, også over vinduet, med downlights. Ingen taklampe midt i rommet</li></ul>
+<h3 style="margin-top:14px">Stikkontakter og kurser</h3><ul>
+<li>Soverom 1, 2 og 3: 2 stikkontakter i hvert, spredt på ulike vegger (ikke samlet)</li>
+<li>Stue: stikkontakter ved TV på langveggen mot entréen (motsatt av vinduene)</li>
+<li>Kjøkken: integrert kombiskap (kjøl/frys) i høyskap, stekeovn under koketopp, induksjonstopp, oppvaskmaskin, ventilator i overskap, LED</li>
+<li>Bad: varmekabler, vaskemaskin, eventuelt lys i speil</li>
+<li>Lysbryter på veggbiten ved ny dør til soverom 3</li>
+<li>Bytte sikringsskap (nytt skap med nok kurser til alt over)</li></ul>
+<h3 style="margin-top:14px">Bad</h3><ul>
+<li>Riving og total oppbygging med våtromsplater, membran, nytt sluk og riktig fall</li>
+<li>Slukrenne langs gulvet i dusjen, fra bakveggen og fremover</li>
+<li>Vegger fores ut slik at rør og ledninger skjules</li>
+<li>Rekkefølge langs bakveggen fra venstre: hjørnedusj ca. 80x80, vegghengt toalett med innebygd sisterne, servant med speil over, lite veggskap (ca. 30 cm bredt, 120 cm høyt, hengt på vegg)</li>
+<li>Dusj: én rammeløs glassdør og ett fast glassfelt. Dusjbatteri på bakveggen, samme vegg som toalettet</li>
+<li>Vaskemaskin på høyre vegg med vann, avløp og stikkontakt</li>
+<li>Nye vann- og avløpsrør, Sanipex rør-i-rør, tilrettelegging for ventilasjon</li>
+<li>Fliser 60x60 lys grå (ikke valgt ennå)</li>
+<li>Rørlegger setter opp baderomsinnredningen: servant med skap, speil, veggskap, toalett og dusjvegg. Vi kjøper innredningen</li></ul>
+<h3 style="margin-top:14px">Kjøkken</h3><ul>
+<li>Kvik, tilbud SQ000364 (Johan Sanna, Kvik Ski). Lengde 3,40 m</li>
+<li>Gamle kjøkken (nå soverom 3): rives, vann og avløp plugges, kjøkkenkurser og komfyruttak fjernes</li>
+<li>LED-stripe kun under overskapene, ikke lys i sokkelen</li>
+<li>Langs lettveggen fra døra og innover mot badveggen: høyskap med integrert kjøl/frys, vask, oppvaskmaskin, koketopp med ovn under</li>
+<li>Overskap helt til taket, ventilator integrert, LED under</li>
+<li>Ventilatoren må kobles til avtrekk. Vi mangler fortsatt noen til dette</li>
+<li>Rørlegger: vann og avløp til vask og oppvaskmaskin, Waterguard</li>
+<li>Kjøkkenmontering er ikke med i Dema-avtalen</li></ul>
+<h3 style="margin-top:14px">Overflater og annet</h3><ul>
+<li>Gulv: Nordkapp lys eik laminat i stue, soverom og gang (kjøpt), med nye gulvlister i hele leiligheten</li>
+<li>Sparkling av vegger i stue, soverom og gang</li>
+<li>Maling: Marrakesh</li>
+<li>Soverom 1: garderobe rett ved døra, seng midt i rommet med hodegavl mot langveggen</li>
+<li>Garderobeskap i soverom</li></ul>
+</details>
+<details><summary>Annet</summary><ul>
+<li><b>Vi trenger noen som river det gamle kjøkkenet og monterer det nye</b> (3,40 m, Kvik). Det er ikke med i Dema-avtalen</li>
+<li><b>Vi trenger noen som kobler ventilatoren</b> i det nye kjøkkenet til avtrekket. Kan du ta det, send oss et spørsmål</li>
+<li>Vi avklarer tillatelser for ombyggingen og det nye soverommet</li></ul></details>
+</section>
+</div>
+
+<dialog id="dlg" aria-labelledby="dlg-h"><form method="dialog" class="dlg" id="varsle">
+<div class="dlg-head"><h2 id="dlg-h">Varsle oss</h2><button class="x" value="close" aria-label="Lukk">×</button></div>
+<div class="tabs" role="tablist" style="margin:0">
+<button type="button" role="tab" aria-selected="true" data-mtab="status">Kommer / går</button>
+<button type="button" role="tab" aria-selected="false" data-mtab="q">Spørsmål</button>
+</div>
+<div class="two">
+<label class="f">Navn<input id="navn" autocomplete="name" placeholder="Ditt navn"></label>
+<label class="f">Fag<select id="fag"><option>Rørlegger (Dema)</option><option>Snekker</option><option>Elektriker</option><option>Annet</option></select></label>
+</div>
+<div id="m-status" style="display:grid;gap:12px">
+<div class="seg" role="radiogroup" aria-label="Status">
+<label><input type="radio" name="st" value="Er på plass og starter nå" checked>På plass</label>
+<label><input type="radio" name="st" value="Ferdig for i dag">Ferdig i dag</label>
+<label><input type="radio" name="st" value="Ferdig med jobben min">Ferdig med jobben</label>
+</div>
+<label class="f">Nøkkel<select id="nokkel">
+<option>Jeg har nøkkelen</option>
+<option>Lagt tilbake i nøkkelboksen</option>
+<option>Levert til Rahil</option>
+<option>Levert til Emir</option>
+<option>Gitt videre til en annen håndverker (skriv hvem)</option>
+<option>Jeg har ikke nøkkel</option>
+</select></label>
+<label class="f">Kommentar (valgfritt)<textarea id="komm" placeholder="Hva er gjort i dag, eller hva mangler"></textarea></label>
+</div>
+<div id="m-q" hidden style="display:grid;gap:12px">
+<div class="two">
+<label class="f">Gjelder<select id="rom"><option>Generelt</option><option>Bad</option><option>Kjøkken</option><option>Stue / lettvegg</option><option>Entré og gang</option><option>Soverom</option><option>Elektro</option></select></label>
+<label class="f">Haster det?<select id="haster"><option value="">Nei</option><option value="HASTER – ">Ja, jobben står</option></select></label>
+</div>
+<label class="f">Spørsmål<textarea id="sporsmal" placeholder="Legg gjerne ved bilde når meldingen åpner seg"></textarea></label>
+</div>
+<div class="preview" id="preview" aria-live="polite"></div>
+<div class="send" id="send">
+<a class="btn primary" id="sms-both">Send SMS til Rahil og Emir</a>
+<div class="row"><a class="btn" id="wa-r" target="_blank" rel="noopener">WhatsApp Rahil</a><a class="btn" id="wa-e" target="_blank" rel="noopener">WhatsApp Emir</a></div>
+<div class="row"><a class="btn" id="sms-r">SMS kun Rahil</a><a class="btn" id="sms-e">SMS kun Emir</a><button type="button" class="btn" id="kopier">Kopier</button></div>
+</div>
+<p class="hint">Meldingen åpnes ferdig utfylt. Du trykker send selv.</p>
+</form></dialog>
+
+<script>
+(()=>{
+const R="+4793077305",E="+4740171067",$=id=>document.getElementById(id);
+const dlg=$("dlg");let mtab="status";
+try{const n=localStorage.getItem("73b-navn");if(n)$("navn").value=n;const f=localStorage.getItem("73b-fag");if(f)$("fag").value=f}catch(e){}
+const ios=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+const klokke=()=>new Date().toLocaleString("nb-NO",{weekday:"short",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});
+function tekst(){
+  const navn=$("navn").value.trim()||"(navn mangler)",fag=$("fag").value;
+  if(mtab==="status"){const st=document.querySelector('input[name="st"]:checked').value,k=$("komm").value.trim();
+    return `Rødtvetveien 73B – ${st}\n${navn}, ${fag}\n${klokke()}\nNøkkel: ${$("nokkel").value}`+(k?`\n${k}`:"");}
+  return `${$("haster").value}Spørsmål Rødtvetveien 73B (${$("rom").value})\nFra ${navn}, ${fag}\n${$("sporsmal").value.trim()||"(skriv spørsmålet)"}`;
+}
+const sms=(n,b)=>ios?`sms:/open?addresses=${n.join(",")}&body=${encodeURIComponent(b)}`:`sms:${n.join(",")}?body=${encodeURIComponent(b)}`;
+const wa=(n,b)=>`https://wa.me/${n.slice(1)}?text=${encodeURIComponent(b)}`;
+function oppdater(){const b=tekst();$("preview").textContent=b;
+  $("sms-both").href=sms([R,E],b);$("sms-r").href=sms([R],b);$("sms-e").href=sms([E],b);$("wa-r").href=wa(R,b);$("wa-e").href=wa(E,b);}
+function setM(t){mtab=t;document.querySelectorAll("[data-mtab]").forEach(x=>x.setAttribute("aria-selected",x.dataset.mtab===t));
+  $("m-status").hidden=t!=="status";$("m-q").hidden=t!=="q";$("dlg-h").textContent=t==="q"?"Still et spørsmål":"Varsle oss";oppdater();}
+document.querySelectorAll("[data-open]").forEach(b=>b.addEventListener("click",()=>{setM(b.dataset.open);dlg.showModal?dlg.showModal():dlg.setAttribute("open","")}));
+document.querySelectorAll("[data-mtab]").forEach(b=>b.addEventListener("click",()=>setM(b.dataset.mtab)));
+dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
+$("varsle").addEventListener("input",()=>{oppdater();try{localStorage.setItem("73b-navn",$("navn").value);localStorage.setItem("73b-fag",$("fag").value)}catch(e){}});
+$("varsle").addEventListener("change",oppdater);
+$("send").addEventListener("pointerdown",oppdater,true);
+$("kopier").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(tekst());$("kopier").textContent="Kopiert"}catch(e){$("kopier").textContent="Kopier manuelt"}setTimeout(()=>$("kopier").textContent="Kopier",2500)});
+document.querySelectorAll("[data-trade]").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll("[data-trade]").forEach(x=>x.setAttribute("aria-selected",x===b));
+  document.querySelectorAll("[data-panel]").forEach(p=>p.hidden=p.dataset.panel!==b.dataset.trade);
+}));
+oppdater();
+})();
+</script>
