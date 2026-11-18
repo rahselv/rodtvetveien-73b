@@ -102,14 +102,48 @@ textarea{min-height:76px;resize:vertical}
 .valg-grid small{font-size:12.5px;color:var(--muted)}
 .tasks .grp{list-style:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:14px 0 2px;border-top:0}
 .tasks .grp:first-child{padding-top:0}
-.pn-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-.pn-frame{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
-.pn-frame iframe{display:block;width:100%;height:420px;border:0}
+/* tavle: shared board (plan, key, documentation, materials, receipts) stored in Vercel Blob */
+.tv-now{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:12px}
+.tv-now>div{background:var(--soft);border:1px solid color-mix(in srgb,var(--pine) 25%,var(--line));border-radius:12px;padding:12px 14px;display:grid;gap:2px}
+.tv-now span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--pine);font-weight:700}
+.tv-now b{font-family:var(--display);font-size:18px;font-stretch:112%}
+.tv-now small{font-size:12.5px;color:var(--muted)}
+.tv-off{background:#fff6e5;border:1px solid #ecd3a0;border-radius:12px;padding:12px 14px;margin:0 0 12px;font-size:14px}
+.tv-off a{color:var(--pine);font-weight:700}
+.tv-who{margin-bottom:12px}
+.tv-form{display:grid;gap:12px;padding-bottom:18px;margin-bottom:6px;border-bottom:1px solid var(--line)}
+.tv-form .btn{justify-self:start}
+.tv-msg{margin:-4px 0 0;font-size:13px;color:var(--pine);font-weight:600;min-height:1em}
+.three{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px}
+@media (max-width:420px){.three{grid-template-columns:1fr 1fr}.three label:first-child{grid-column:1/-1}}
+.seg-wrap{grid-template-columns:repeat(auto-fit,minmax(104px,1fr))}
+.seg label{position:relative}
+.ck{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px}
+.ck input{width:20px;height:20px;accent-color:var(--pine);margin:0}
+input[type=file]{padding:8px;background:var(--surface)}
+.tv-thumbs{display:flex;gap:6px;flex-wrap:wrap}
+.tv-thumbs:empty{display:none}
+.tv-thumbs img,.tv-imgs img{width:72px;height:56px;object-fit:cover;border-radius:6px;display:block}
+.tv-imgs{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.tv-pdf{font-size:12.5px;font-weight:700;color:var(--pine);border:1px solid var(--line);border-radius:6px;padding:4px 8px;text-decoration:none}
+.tv-list{display:grid}
+.tv-day{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:14px 0 2px}
+.tv-day.today{color:var(--pine)}
+.tv-row{padding:10px 0;border-top:1px solid var(--line);display:grid;gap:2px}
+.tv-day+.tv-row,.tv-list>.tv-row:first-child{border-top:0}
+.tv-row small{color:var(--muted);font-size:12.5px}
+.tv-row .tv-top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.tv-row p{margin:2px 0 0;white-space:pre-wrap}
+.tv-st{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--pine);white-space:nowrap}
+.tv-empty{color:var(--muted);font-size:14px;padding:12px 0 0;margin:0}
+.tv-del{border:0;background:none;color:#c0503c;font:600 12px var(--body);cursor:pointer;padding:2px 0;justify-self:start}
+.tv-list details{padding-top:12px}
+.tv-sum{font-weight:700;padding:12px 0 0;border-top:2px solid var(--ink);display:flex;justify-content:space-between}
 </style>
 
 <div class="bar"><div class="in"><b>Rødtvetveien 73B</b>
 <button class="btn primary" type="button" data-open="status">Varsle oss</button>
-<a class="btn" href="#plan-nokler">Plan</a>
+<a class="btn" href="#plan-nokler">Tavle</a>
 <button class="btn" type="button" data-open="q">Spørsmål</button></div></div>
 
 <div class="wrap">
@@ -135,12 +169,102 @@ textarea{min-height:76px;resize:vertical}
 </div>
 </section>
 
-<section class="plan-nokler" id="plan-nokler" aria-labelledby="pn-h">
-<h2 id="pn-h">Plan og nøkler</h2>
-<p class="muted" style="margin:0 0 10px">Skriv inn når du kommer og hva du skal gjøre, og hver gang nøkkelen bytter hånd. Alle ser det samme. Nederste linje i «Nøkkel» viser hvem som har nøkkelen nå.</p>
-<div class="pn-btns"><a class="btn primary" href="https://docs.google.com/spreadsheets/d/1Ko4d5Zv8sAdOmbh-uxx1yKKQoOT1mmmGNU0QzhLHjUw/edit#gid=0" target="_blank" rel="noopener">Legg inn i planen</a><a class="btn" href="https://docs.google.com/spreadsheets/d/1Ko4d5Zv8sAdOmbh-uxx1yKKQoOT1mmmGNU0QzhLHjUw/edit" target="_blank" rel="noopener">Oppdater nøkkel</a></div>
-<div class="pn-frame"><iframe src="https://docs.google.com/spreadsheets/d/1Ko4d5Zv8sAdOmbh-uxx1yKKQoOT1mmmGNU0QzhLHjUw/htmlview?widget=true&amp;headers=false" title="Plan og nøkler" loading="lazy"></iframe></div>
-<p class="note">Åpnes i Google Regneark. Du trenger ikke logge inn. Tabellen over oppdateres når siden lastes på nytt.</p>
+<section class="tavle" id="plan-nokler" aria-labelledby="tv-h">
+<h2 id="tv-h">Tavle</h2>
+<p class="muted" style="margin:-4px 0 12px">Her legger alle inn plan, nøkkel, dokumentasjon, materialvalg og kvitteringer. Alle ser det samme med en gang.</p>
+<div class="tv-now">
+<div><span>Nøkkel nå</span><b id="tv-key">–</b><small id="tv-key-s"></small></div>
+<div><span>Neste på plass</span><b id="tv-next">–</b><small id="tv-next-s"></small></div>
+</div>
+<p class="tv-off" id="tv-off" hidden></p>
+<div class="two tv-who">
+<label class="f">Ditt navn<input id="tv-navn" autocomplete="name" placeholder="Navn"></label>
+<label class="f">Fag<select id="tv-fag"><option>Snekker</option><option>Rørlegger (Dema)</option><option>Elektriker</option><option>Rahil / Emir</option><option>Annet</option></select></label>
+</div>
+<div class="tabs tv-tabs" role="tablist">
+<button type="button" role="tab" aria-selected="true" data-tv="plan">Plan</button>
+<button type="button" role="tab" aria-selected="false" data-tv="nokkel">Nøkkel</button>
+<button type="button" role="tab" aria-selected="false" data-tv="dok">Dokumentasjon</button>
+<button type="button" role="tab" aria-selected="false" data-tv="materiale">Materialer</button>
+<button type="button" role="tab" aria-selected="false" data-tv="kvitt">Kvittering</button>
+</div>
+
+<div class="card tv-p" data-tvp="plan">
+<form class="tv-form" data-type="plan">
+<h3>Når kommer du?</h3>
+<div class="three">
+<label class="f">Dato<input type="date" name="dato" required></label>
+<label class="f">Fra<input type="time" name="fra" value="08:00"></label>
+<label class="f">Til<input type="time" name="til" value="16:00"></label>
+</div>
+<label class="f">Hva skal du gjøre?<input name="hva" placeholder="F.eks. sette opp lettvegg i stua" required></label>
+<button class="btn primary" type="submit">Legg inn i planen</button><p class="tv-msg" aria-live="polite"></p>
+</form>
+<div class="tv-list" id="tv-plan"></div>
+</div>
+
+<div class="card tv-p" data-tvp="nokkel" hidden>
+<form class="tv-form" data-type="nokkel">
+<h3>Hvor er nøkkelen nå?</h3>
+<div class="seg seg-wrap" role="radiogroup" aria-label="Nøkkelen er hos">
+<label><input type="radio" name="hos" value="meg" checked>Hos meg</label>
+<label><input type="radio" name="hos" value="Nøkkelboksen">Nøkkelboksen</label>
+<label><input type="radio" name="hos" value="Rahil">Rahil</label>
+<label><input type="radio" name="hos" value="Emir">Emir</label>
+<label><input type="radio" name="hos" value="annen">En annen</label>
+</div>
+<label class="f" data-annen hidden>Hvem har den?<input name="annen" placeholder="Navn"></label>
+<label class="f">Kommentar (valgfritt)<input name="kommentar" placeholder="F.eks. henter igjen mandag kl 8"></label>
+<button class="btn primary" type="submit">Oppdater nøkkel</button><p class="tv-msg" aria-live="polite"></p>
+</form>
+<div class="tv-list" id="tv-nokkel"></div>
+</div>
+
+<div class="card tv-p" data-tvp="dok" hidden>
+<form class="tv-form" data-type="dok">
+<h3>Dokumenter arbeidet</h3>
+<label class="f">Oppgave<select name="oppgaveId" id="tv-oppg"></select></label>
+<label class="ck"><input type="checkbox" name="ferdig"> Oppgaven er ferdig</label>
+<label class="f">Hva er gjort?<textarea name="tekst" placeholder="F.eks. membran lagt, sluk montert, rør trykktestet"></textarea></label>
+<label class="f">Bilder<input type="file" name="bilder" accept="image/*" multiple></label>
+<div class="tv-thumbs" data-thumbs></div>
+<button class="btn primary" type="submit">Lagre dokumentasjon</button><p class="tv-msg" aria-live="polite"></p>
+</form>
+<div class="tv-list" id="tv-dok"></div>
+</div>
+
+<div class="card tv-p" data-tvp="materiale" hidden>
+<form class="tv-form" data-type="materiale">
+<h3>Materialvalg</h3>
+<div class="two">
+<label class="f">Hva<input name="hva" placeholder="F.eks. sluk, gips, fugemasse" required></label>
+<label class="f">Status<select name="status"><option>Forslag</option><option>Bestilt</option><option>Kjøpt</option><option>Montert</option></select></label>
+</div>
+<label class="f">Valg (merke, type, mål, antall)<input name="valg" placeholder="F.eks. Purus Line 800 mm, børstet stål"></label>
+<label class="f">Lenke (valgfritt)<input name="lenke" type="url" inputmode="url" placeholder="https://"></label>
+<label class="f">Kommentar (valgfritt)<input name="kommentar"></label>
+<label class="f">Bilder (valgfritt)<input type="file" name="bilder" accept="image/*" multiple></label>
+<div class="tv-thumbs" data-thumbs></div>
+<button class="btn primary" type="submit">Legg til materiale</button><p class="tv-msg" aria-live="polite"></p>
+</form>
+<div class="tv-list" id="tv-materiale"></div>
+</div>
+
+<div class="card tv-p" data-tvp="kvitt" hidden>
+<form class="tv-form" data-type="kvitt">
+<h3>Last opp kvittering</h3>
+<p class="note" style="margin:0">Kvitteringer ser bare Rahil og Emir.</p>
+<label class="f">Hva er kjøpt<input name="hva" placeholder="F.eks. membran og flislim, Maxbo" required></label>
+<div class="two">
+<label class="f">Beløp (kr)<input name="belop" inputmode="decimal" placeholder="0"></label>
+<label class="f">Dato<input type="date" name="dato"></label>
+</div>
+<label class="f">Bilde eller PDF av kvitteringen<input type="file" name="filer" accept="image/*,application/pdf" multiple required></label>
+<div class="tv-thumbs" data-thumbs></div>
+<button class="btn primary" type="submit">Send kvittering</button><p class="tv-msg" aria-live="polite"></p>
+</form>
+<div class="tv-list" id="tv-kvitt"></div>
+</div>
 </section>
 
 <section class="plan">
@@ -402,7 +526,6 @@ textarea{min-height:76px;resize:vertical}
 <div class="tabs" role="tablist" style="margin:0">
 <button type="button" role="tab" aria-selected="true" data-mtab="status">Kommer / går</button>
 <button type="button" role="tab" aria-selected="false" data-mtab="q">Spørsmål</button>
-<button type="button" role="tab" aria-selected="false" data-mtab="done">Meld ferdig</button>
 </div>
 <div class="two">
 <label class="f">Navn<input id="navn" autocomplete="name" placeholder="Ditt navn"></label>
@@ -439,6 +562,7 @@ textarea{min-height:76px;resize:vertical}
 </div>
 <div class="preview" id="preview" aria-live="polite"></div>
 <div class="send" id="send">
+<button type="button" class="btn primary" id="tv-save">Lagre på tavlen</button>
 <a class="btn primary" id="sms-both">Send SMS til Rahil og Emir</a>
 <div class="row"><a class="btn" id="wa-r" target="_blank" rel="noopener">WhatsApp Rahil</a><a class="btn" id="wa-e" target="_blank" rel="noopener">WhatsApp Emir</a></div>
 <div class="row"><a class="btn" id="sms-r">SMS kun Rahil</a><a class="btn" id="sms-e">SMS kun Emir</a><button type="button" class="btn" id="kopier">Kopier</button></div>
@@ -467,7 +591,7 @@ const wa=(n,b)=>`https://wa.me/${n.slice(1)}?text=${encodeURIComponent(b)}`;
 function oppdater(){const b=tekst();$("preview").textContent=b;
   $("sms-both").href=sms([R,E],b);$("sms-r").href=sms([R],b);$("sms-e").href=sms([E],b);$("wa-r").href=wa(R,b);$("wa-e").href=wa(E,b);}
 function setM(t){mtab=t;document.querySelectorAll("[data-mtab]").forEach(x=>x.setAttribute("aria-selected",x.dataset.mtab===t));
-  $("m-status").hidden=t!=="status";$("m-q").hidden=t!=="q";$("m-done").hidden=t!=="done";
+  $("m-status").hidden=t!=="status";$("tv-save").hidden=t!=="status";$("m-q").hidden=t!=="q";$("m-done").hidden=t!=="done";
   $("dlg-h").textContent=t==="q"?"Still et spørsmål":t==="done"?"Meld ferdig":"Varsle oss";oppdater();}
 const iDag=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
 const fagNavn={snekker:"Snekker",ror:"Rørlegger",el:"Elektriker",selv:"Rahil og Emir"};
@@ -480,7 +604,7 @@ document.querySelectorAll("ul.tasks").forEach(ul=>ul.querySelectorAll("li:not(.g
   if(li.querySelector(".tag")?.textContent==="Åpent")return;
   oppgaver.push({id,label:(fag?fag+": ":"")+t});
   const b=document.createElement("button");b.type="button";b.className="mf";b.textContent="Meld ferdig";
-  b.addEventListener("click",()=>{setM("done");$("oppgave").value=(fag?fag+": ":"")+t;oppdater();dlg.showModal?dlg.showModal():dlg.setAttribute("open","")});
+  b.addEventListener("click",()=>document.dispatchEvent(new CustomEvent("tv-dok",{detail:id})));
   li.appendChild(b);
 }));
 $("oppgave").innerHTML='<option value="">Velg oppgave</option>'+oppgaver.map(o=>`<option>${o.label.replace(/</g,"&lt;")}</option>`).join("");
@@ -504,7 +628,164 @@ document.querySelectorAll("[data-trade]").forEach(b=>b.addEventListener("click",
   document.querySelectorAll("[data-trade]").forEach(x=>x.setAttribute("aria-selected",x===b));
   document.querySelectorAll("[data-panel]").forEach(p=>p.hidden=p.dataset.panel!==b.dataset.trade);
 }));
+$("tv-save").addEventListener("click",async()=>{const b=$("tv-save"),navn=$("navn").value.trim();if(!navn){$("navn").focus();return}
+  const map={"Jeg har nøkkelen":navn,"Lagt tilbake i nøkkelboksen":"Nøkkelboksen","Levert til Rahil":"Rahil","Levert til Emir":"Emir","Gitt videre til en annen håndverker (skriv hvem)":"En annen håndverker","Jeg har ikke nøkkel":""};
+  const st=document.querySelector('input[name="st"]:checked').value,k=$("komm").value.trim();
+  b.disabled=true;b.textContent="Lagrer …";
+  try{if(!window.tvLive||!window.tvLive())throw new Error("Tavlen er ikke tilgjengelig her");
+    await window.tvPost({type:"nokkel",navn,fag:$("fag").value,hos:map[$("nokkel").value]??"",kommentar:st+(k?" – "+k:"")});b.textContent="Lagret på tavlen ✓"}
+  catch(e){b.textContent=e.message}finally{b.disabled=false;setTimeout(()=>b.textContent="Lagre på tavlen",4000)}});
 oppdater();
+})();
+</script>
+<script>
+(()=>{
+/* Tavle: reads and writes the shared board through /api/data. Files go through /api/upload. */
+const NEW_URL="https://rodtvetveien-73b.vercel.app/";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const adm=()=>{try{return sessionStorage.getItem("73b-adm")||""}catch(e){return""}};
+const hdr=()=>{const p=adm();return p?{"x-admin":p}:{}};
+const iDag=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+const dLbl=d=>d?new Date(d+"T12:00").toLocaleDateString("nb-NO",{weekday:"long",day:"numeric",month:"long"}):"Uten dato";
+const tLbl=ts=>new Date(ts).toLocaleString("nb-NO",{weekday:"short",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});
+const kr=v=>{const n=Number(String(v).replace(/\s/g,"").replace(",","."));return isFinite(n)&&String(v).trim()?Math.round(n).toLocaleString("nb-NO")+" kr":""};
+const who=r=>esc(r.navn)+(r.fag?", "+esc(r.fag):"");
+let DATA={plan:[],nokkel:[],dok:[],materiale:[],kvitt:[]},ADMIN=false,LIVE=false;
+
+/* who am I (remembered on this phone) */
+const nv=$("tv-navn"),fv=$("tv-fag");
+try{nv.value=localStorage.getItem("73b-navn")||"";const f=localStorage.getItem("73b-tvfag");if(f)fv.value=f}catch(e){}
+nv.addEventListener("input",()=>{try{localStorage.setItem("73b-navn",nv.value)}catch(e){}});
+fv.addEventListener("change",()=>{try{localStorage.setItem("73b-tvfag",fv.value)}catch(e){}});
+
+/* tabs */
+function tab(t){document.querySelectorAll("[data-tv]").forEach(b=>b.setAttribute("aria-selected",b.dataset.tv===t));
+  document.querySelectorAll("[data-tvp]").forEach(p=>p.hidden=p.dataset.tvp!==t);try{localStorage.setItem("73b-tv",t)}catch(e){}}
+document.querySelectorAll("[data-tv]").forEach(b=>b.addEventListener("click",()=>tab(b.dataset.tv)));
+try{const t=localStorage.getItem("73b-tv");if(t&&document.querySelector(`[data-tv="${t}"]`))tab(t)}catch(e){}
+
+/* tasks from the "Hva skal gjøres" lists, for the documentation form */
+const fagNavn={snekker:"Snekker",ror:"Rørlegger",el:"Elektriker",selv:"Rahil og Emir"};
+const tittel=li=>{const c=li.cloneNode(true);c.querySelectorAll("small,.tag,.done-b,.mf,.done-imgs,.tv-imgs").forEach(x=>x.remove());return c.textContent.trim()};
+const OPPG=[];
+document.querySelectorAll("ul.tasks").forEach(ul=>ul.querySelectorAll("li[data-id]").forEach(li=>OPPG.push({id:li.dataset.id,label:(fagNavn[ul.dataset.panel]?fagNavn[ul.dataset.panel]+": ":"")+tittel(li),li})));
+OPPG.push({id:"annet",label:"Annet / ikke på listen"});
+$("tv-oppg").innerHTML='<option value="">Velg oppgave</option>'+OPPG.map(o=>`<option value="${esc(o.id)}">${esc(o.label)}</option>`).join("");
+document.addEventListener("tv-dok",e=>{tab("dok");$("tv-oppg").value=e.detail||"";const f=document.querySelector('[data-type="dok"]');f.ferdig.checked=true;
+  document.getElementById("plan-nokler").scrollIntoView({behavior:"smooth"});setTimeout(()=>f.tekst.focus({preventScroll:true}),400)});
+
+/* defaults and small form behaviour */
+function defaults(f){f.querySelectorAll('input[type=date]').forEach(i=>{if(!i.value)i.value=iDag()});
+  const a=f.querySelector("[data-annen]");if(a)a.hidden=f.hos?.value!=="annen";}
+document.querySelectorAll(".tv-form").forEach(f=>{defaults(f);
+  f.addEventListener("change",e=>{if(e.target.name==="hos")defaults(f);
+    if(e.target.type==="file"){const box=f.querySelector("[data-thumbs]");box.innerHTML="";
+      [...e.target.files].forEach(fl=>{if(fl.type.startsWith("image/")){const i=new Image();i.src=URL.createObjectURL(fl);i.alt="";box.appendChild(i)}else box.insertAdjacentHTML("beforeend",`<span class="tv-pdf">${esc(fl.name)}</span>`)})}});
+});
+
+/* images are shrunk on the phone before upload, so they stay well under the size limit */
+async function shrink(file){
+  if(!file.type.startsWith("image/"))return file;
+  try{const bmp=await createImageBitmap(file,{imageOrientation:"from-image"});const s=Math.min(1,1600/Math.max(bmp.width,bmp.height));
+    const c=document.createElement("canvas");c.width=Math.round(bmp.width*s);c.height=Math.round(bmp.height*s);c.getContext("2d").drawImage(bmp,0,0,c.width,c.height);
+    const b=await new Promise(r=>c.toBlob(r,"image/jpeg",.82));return b||file}catch(e){return file}
+}
+async function upload(file,kind){
+  const b=await shrink(file);if(b.size>4.2e6)throw new Error(`«${file.name}» er for stor (maks 4 MB).`);
+  const r=await fetch(`/api/upload?kind=${kind}`,{method:"POST",headers:{"content-type":b.type||file.type||"application/octet-stream"},body:b});
+  const j=await r.json().catch(()=>({}));if(!r.ok||!j.ok)throw new Error(j.error||"Opplasting feilet. Prøv igjen.");return j.url;
+}
+async function post(d){
+  const r=await fetch("/api/data",{method:"POST",headers:{"content-type":"application/json",...hdr()},body:JSON.stringify(d)});
+  const j=await r.json().catch(()=>({}));if(!r.ok||!j.ok)throw new Error(j.error||"Kunne ikke lagre. Prøv igjen.");return j;
+}
+window.tvPost=async d=>{if(!LIVE)throw new Error("Tavlen er ikke tilgjengelig her.");const j=await post(d);load();return j};
+window.tvLive=()=>LIVE;
+
+const OK_MSG={plan:"Lagt inn i planen.",nokkel:"Nøkkel oppdatert.",dok:"Dokumentasjon lagret.",materiale:"Materiale lagt til.",kvitt:"Takk! Kvitteringen er sendt til Rahil og Emir."};
+document.querySelectorAll(".tv-form").forEach(f=>f.addEventListener("submit",async e=>{
+  e.preventDefault();const type=f.dataset.type,msg=f.querySelector(".tv-msg"),btn=f.querySelector("[type=submit]");
+  if(!nv.value.trim()){msg.textContent="Skriv navnet ditt øverst først.";nv.focus();return}
+  if(!LIVE){msg.textContent="Tavlen er ikke tilgjengelig her. Se meldingen øverst i tavlen.";return}
+  btn.disabled=true;msg.textContent="Lagrer …";
+  try{
+    const d={type,navn:nv.value.trim(),fag:fv.value};
+    for(const [k,v] of new FormData(f))if(typeof v==="string")d[k]=v;
+    const fi=f.querySelector("input[type=file]");
+    if(fi&&fi.files.length){const urls=[],n=fi.files.length;let i=0;
+      for(const fl of fi.files){msg.textContent=`Laster opp ${++i} av ${n} …`;urls.push(await upload(fl,type==="kvitt"?"kvitt":"bilde"))}d[fi.name]=urls}
+    if(type==="dok"){d.ferdig=f.ferdig.checked;const o=OPPG.find(x=>x.id===d.oppgaveId);d.oppgave=o?o.label:"Generelt";
+      if(!d.tekst.trim()&&!(d.bilder||[]).length)throw new Error("Skriv hva som er gjort eller legg ved bilder.")}
+    if(type==="nokkel"){d.hos=d.hos==="meg"?d.navn:d.hos==="annen"?(d.annen.trim()||"En annen"):d.hos;delete d.annen}
+    msg.textContent="Lagrer …";await post(d);
+    f.reset();f.querySelectorAll("[data-thumbs]").forEach(b=>b.innerHTML="");defaults(f);msg.textContent=OK_MSG[type];
+    setTimeout(()=>{if(msg.textContent===OK_MSG[type])msg.textContent=""},6000);await load();
+  }catch(err){msg.textContent=err.message||"Noe gikk galt. Prøv igjen."}
+  finally{btn.disabled=false}
+}));
+
+/* rendering */
+const imgs=a=>a&&a.length?`<span class="tv-imgs">${a.map(u=>/\.pdf($|\?)/i.test(u)?`<a class="tv-pdf" href="${esc(u)}" target="_blank" rel="noopener">PDF</a>`:`<a href="${esc(u)}" target="_blank" rel="noopener"><img src="${esc(u)}" alt="Bilde" loading="lazy"></a>`).join("")}</span>`:"";
+const del=(t,r)=>ADMIN?`<button type="button" class="tv-del" data-del="${t}" data-id="${esc(r.id)}">Slett</button>`:"";
+const empty=t=>`<p class="tv-empty">${t}</p>`;
+function planRow(r){return `<div class="tv-row"><div class="tv-top"><b>${who(r)}</b><span class="tv-st">${esc(r.fra||"")}${r.til?"–"+esc(r.til):""}</span></div>${r.hva?`<p>${esc(r.hva)}</p>`:""}${del("plan",r)}</div>`}
+function render(){
+  const today=iDag();
+  /* key now */
+  const k=DATA.nokkel.find(r=>r.hos);
+  $("tv-key").textContent=k?k.hos:"Ikke registrert";
+  $("tv-key-s").textContent=k?`Siden ${tLbl(k.ts)} · lagt inn av ${k.navn}`:"Legg inn under Nøkkel";
+  /* next on site */
+  const up=DATA.plan.filter(r=>(r.dato||"")>=today).sort((a,b)=>(a.dato+a.fra).localeCompare(b.dato+b.fra));
+  const nx=up[0];
+  $("tv-next").textContent=nx?`${nx.navn}${nx.fag?" ("+nx.fag+")":""}`:"Ingen planlagt";
+  $("tv-next-s").textContent=nx?`${nx.dato===today?"I dag":dLbl(nx.dato)} ${nx.fra||""}${nx.til?"–"+nx.til:""}${nx.hva?" · "+nx.hva:""}`:"Legg inn under Plan";
+  /* plan */
+  const past=DATA.plan.filter(r=>(r.dato||"")<today).sort((a,b)=>(b.dato+b.fra).localeCompare(a.dato+a.fra));
+  const byDay=(rows)=>{let h="",d=null;rows.forEach(r=>{if(r.dato!==d){d=r.dato;h+=`<div class="tv-day${d===today?" today":""}">${d===today?"I dag · ":""}${esc(dLbl(d))}</div>`}h+=planRow(r)});return h};
+  $("tv-plan").innerHTML=(up.length?byDay(up):empty("Ingen har lagt inn når de kommer ennå."))+(past.length?`<details><summary>Tidligere (${past.length})</summary>${byDay(past)}</details>`:"");
+  /* key log */
+  $("tv-nokkel").innerHTML=DATA.nokkel.length?DATA.nokkel.slice(0,30).map(r=>`<div class="tv-row"><div class="tv-top"><b>${r.hos?"Hos "+esc(r.hos):"Logg"}</b><small>${esc(tLbl(r.ts))}</small></div><small>${who(r)}${r.kommentar?" · "+esc(r.kommentar):""}</small>${del("nokkel",r)}</div>`).join(""):empty("Ingen nøkkelbytter registrert ennå.");
+  /* documentation */
+  $("tv-dok").innerHTML=DATA.dok.length?DATA.dok.map(r=>`<div class="tv-row"><div class="tv-top"><b>${esc(r.oppgave||"Generelt")}</b>${r.ferdig?'<span class="tv-st">✓ Ferdig</span>':""}</div><small>${who(r)} · ${esc(tLbl(r.ts))}</small>${r.tekst?`<p>${esc(r.tekst)}</p>`:""}${imgs(r.bilder)}${del("dok",r)}</div>`).join(""):empty("Ingen dokumentasjon ennå. Legg inn bilder og hva som er gjort.");
+  /* materials */
+  $("tv-materiale").innerHTML=DATA.materiale.length?DATA.materiale.map(r=>`<div class="tv-row"><div class="tv-top"><b>${esc(r.hva)}</b><span class="tv-st">${esc(r.status||"")}</span></div>${r.valg?`<p>${esc(r.valg)}</p>`:""}<small>${who(r)} · ${esc(tLbl(r.ts))}${r.kommentar?" · "+esc(r.kommentar):""}${r.lenke?` · <a href="${esc(r.lenke)}" target="_blank" rel="noopener">Lenke</a>`:""}</small>${imgs(r.bilder)}${del("materiale",r)}</div>`).join(""):empty("Ingen materialvalg lagt inn ennå.");
+  /* receipts: admin only */
+  if(ADMIN){const sum=DATA.kvitt.reduce((a,r)=>{const n=Number(String(r.belop||"").replace(/\s/g,"").replace(",","."));return a+(isFinite(n)?n:0)},0);
+    $("tv-kvitt").innerHTML=DATA.kvitt.length?DATA.kvitt.map(r=>`<div class="tv-row"><div class="tv-top"><b>${esc(r.hva)}</b><span class="tv-st">${esc(kr(r.belop))}</span></div><small>${who(r)} · ${r.dato?esc(dLbl(r.dato)):esc(tLbl(r.ts))}</small>${imgs(r.filer)}${del("kvitt",r)}</div>`).join("")+`<div class="tv-sum"><span>Sum kvitteringer</span><span>${Math.round(sum).toLocaleString("nb-NO")} kr</span></div>`:empty("Ingen kvitteringer ennå.");}
+  else $("tv-kvitt").innerHTML=empty("Kvitteringene du sender havner hos Rahil og Emir.");
+  /* mark tasks done from documentation */
+  document.querySelectorAll("ul.tasks li.tv-done").forEach(li=>{li.classList.remove("tv-done","is-done");li.querySelectorAll(".tv-b,.tv-imgs").forEach(x=>x.remove());if(li.dataset.hadMf)li.querySelector(".mf")?.removeAttribute("hidden")});
+  const seen=new Set();
+  DATA.dok.filter(r=>r.ferdig&&r.oppgaveId).forEach(r=>{if(seen.has(r.oppgaveId))return;seen.add(r.oppgaveId);
+    const li=document.querySelector(`ul.tasks li[data-id="${CSS.escape(r.oppgaveId)}"]`);if(!li||li.classList.contains("is-done"))return;
+    li.classList.add("is-done","tv-done");const mf=li.querySelector(".mf");if(mf){mf.hidden=true;li.dataset.hadMf="1"}
+    li.insertAdjacentHTML("afterbegin",`<span class="done-b tv-b">✓ Ferdig ${esc(new Date(r.ts).toLocaleDateString("nb-NO",{day:"numeric",month:"short"}))}</span>`);
+    const all=DATA.dok.filter(x=>x.oppgaveId===r.oppgaveId).flatMap(x=>x.bilder||[]);if(all.length)li.insertAdjacentHTML("beforeend",imgs(all.slice(0,8)));
+  });
+}
+document.getElementById("plan-nokler").addEventListener("click",async e=>{
+  const b=e.target.closest("[data-del]");if(!b)return;
+  if(!confirm("Slette denne linjen? Det kan ikke angres."))return;
+  b.disabled=true;try{await post({action:"delete",type:b.dataset.del,id:b.dataset.id});await load()}catch(err){alert(err.message);b.disabled=false}
+});
+
+function off(){
+  const el=$("tv-off");el.hidden=false;
+  el.innerHTML=/github\.io$/.test(location.hostname)
+    ?`Tavlen fungerer på den nye adressen: <a href="${NEW_URL}">${NEW_URL.replace(/^https:\/\/|\/$/g,"")}</a>. Bruk den i stedet.`
+    :"Får ikke kontakt med tavlen akkurat nå. Sjekk nettet og last siden på nytt.";
+}
+async function load(){
+  try{const r=await fetch("/api/data",{headers:hdr(),cache:"no-store"});const j=await r.json();if(!r.ok||!j.ok)throw 0;
+    DATA={plan:[],nokkel:[],dok:[],materiale:[],kvitt:[],...j.data};ADMIN=!!j.admin;LIVE=true;$("tv-off").hidden=true;render();}
+  catch(e){LIVE=false;off()}
+}
+window.addEventListener("73b-adm",load);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&LIVE)load()});
+setInterval(()=>{if(!document.hidden&&LIVE)load()},60000);
+load();
 })();
 </script>
 
@@ -596,7 +877,7 @@ function render(D){
 }
 async function open(pw,quiet){
   $("adm-err").textContent=quiet?"":"Åpner …";$("adm-go").disabled=true;
-  try{const D=await decrypt(pw);render(D);try{sessionStorage.setItem("73b-adm",pw)}catch(e){}if(dlg.open)dlg.close();$("adm-pw").value="";
+  try{const D=await decrypt(pw);render(D);try{sessionStorage.setItem("73b-adm",pw)}catch(e){}window.dispatchEvent(new Event("73b-adm"));if(dlg.open)dlg.close();$("adm-pw").value="";
     $("okonomi").scrollIntoView({behavior:"smooth"})}
   catch(e){if(!quiet)$("adm-err").textContent="Feil passord.";}
   finally{$("adm-go").disabled=false}
