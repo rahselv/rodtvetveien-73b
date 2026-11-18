@@ -102,10 +102,14 @@ textarea{min-height:76px;resize:vertical}
 .valg-grid small{font-size:12.5px;color:var(--muted)}
 .tasks .grp{list-style:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:14px 0 2px;border-top:0}
 .tasks .grp:first-child{padding-top:0}
+.pn-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.pn-frame{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.pn-frame iframe{display:block;width:100%;height:420px;border:0}
 </style>
 
 <div class="bar"><div class="in"><b>Rødtvetveien 73B</b>
 <button class="btn primary" type="button" data-open="status">Varsle oss</button>
+<a class="btn" href="#plan-nokler">Plan</a>
 <button class="btn" type="button" data-open="q">Spørsmål</button></div></div>
 
 <div class="wrap">
@@ -129,6 +133,14 @@ textarea{min-height:76px;resize:vertical}
 <div><span>Bad</span><b>Fliser 60x60 lys grå</b><small>Ikke valgt ennå. Slukrenne, én glassdør</small></div>
 <div><span>Lys</span><b>Downlights i takkasser</b><small>Stue og alle soverom. Ingen taklampe</small></div>
 </div>
+</section>
+
+<section class="plan-nokler" id="plan-nokler" aria-labelledby="pn-h">
+<h2 id="pn-h">Plan og nøkler</h2>
+<p class="muted" style="margin:0 0 10px">Skriv inn når du kommer og hva du skal gjøre, og hver gang nøkkelen bytter hånd. Alle ser det samme. Nederste linje i «Nøkkel» viser hvem som har nøkkelen nå.</p>
+<div class="pn-btns"><a class="btn primary" href="https://docs.google.com/spreadsheets/d/1Ko4d5Zv8sAdOmbh-uxx1yKKQoOT1mmmGNU0QzhLHjUw/edit#gid=0" target="_blank" rel="noopener">Legg inn i planen</a><a class="btn" href="https://docs.google.com/spreadsheets/d/1Ko4d5Zv8sAdOmbh-uxx1yKKQoOT1mmmGNU0QzhLHjUw/edit" target="_blank" rel="noopener">Oppdater nøkkel</a></div>
+<div class="pn-frame"><iframe src="https://docs.google.com/spreadsheets/d/1Ko4d5Zv8sAdOmbh-uxx1yKKQoOT1mmmGNU0QzhLHjUw/htmlview?widget=true&amp;headers=false" title="Plan og nøkler" loading="lazy"></iframe></div>
+<p class="note">Åpnes i Google Regneark. Du trenger ikke logge inn. Tabellen over oppdateres når siden lastes på nytt.</p>
 </section>
 
 <section class="plan">
@@ -179,13 +191,14 @@ textarea{min-height:76px;resize:vertical}
   <text class="rs" x="540" y="692" style="fill:#9a7a48;font-weight:700;letter-spacing:.06em">KJØKKEN 335 cm</text>
   <text class="rs" x="655" y="692" style="fill:#9a7a48;font-size:9.5px">kjøl/frys</text>
   <!-- bad -->
-  <rect class="fx" x="258" y="880" width="72" height="72" rx="2"/><path d="M262 884l64 64" stroke="#b6c2c8" stroke-width="1"/>
+  <!-- bakveggen fra venstre: veggskap, servant, toalett, dusj i høyre hjørne -->
+  <rect class="fx" x="380" y="880" width="72" height="72" rx="2"/><path d="M448 884l-64 64" stroke="#b6c2c8" stroke-width="1"/>
+  <line x1="384" y1="948" x2="448" y2="948" stroke="#5a7d9a" stroke-width="3" stroke-linecap="round"/>
   <ellipse class="fx" cx="355" cy="928" rx="12" ry="16"/><rect class="fx" x="341" y="940" width="28" height="12" rx="2"/>
-  <rect class="fx" x="378" y="926" width="44" height="26" rx="5"/>
-  <line x1="380" y1="956" x2="420" y2="956" stroke="#5a7d9a" stroke-width="4" stroke-linecap="round"/>
-  <rect class="fx" x="428" y="910" width="26" height="42" rx="2"/>
+  <rect class="fx" x="288" y="926" width="44" height="26" rx="5"/>
+  <rect class="fx" x="256" y="910" width="26" height="42" rx="2"/>
   <rect class="fx" x="414" y="818" width="40" height="40" rx="3"/><circle cx="434" cy="838" r="11" fill="none" stroke="#5c6460" stroke-width="1"/>
-  <text class="rs" x="294" y="872">dusj</text><text class="rs" x="400" y="918">servant</text><text class="rs" x="434" y="812">vask</text>
+  <text class="rs" x="416" y="872">dusj</text><text class="rs" x="310" y="918">servant</text><text class="rs" x="434" y="812">vask</text>
   <g class="sp"><circle cx="300" cy="830" r="3.5"/><circle cx="350" cy="830" r="3.5"/><circle cx="300" cy="858" r="3.5"/><circle cx="350" cy="858" r="3.5"/></g>
   <!-- entré downlights -->
   <g class="sp"><circle cx="340" cy="628" r="4"/><circle cx="340" cy="672" r="4"/><circle cx="340" cy="716" r="4"/></g>
@@ -276,7 +289,7 @@ textarea{min-height:76px;resize:vertical}
 <li><span class="tag">Bad</span>Rive og bygge opp på nytt<small>Våtromsplater, membran, nytt sluk og riktig fall. Veggene fores ut så rør og ledninger skjules.</small></li>
 <li><span class="tag">Bad</span>Nye vann- og avløpsrør<small>Sanipex rør-i-rør. Tilrettelegge for ventilasjon.</small></li>
 <li><span class="tag">Bad</span>Slukrenne i dusjen<small>Langs gulvet fra bakveggen og fremover, med fall mot renna. Ikke firkantet sluk i midten.</small></li>
-<li><span class="tag">Bad</span>Bakveggen fra venstre<small>Hjørnedusj ca. 80x80 med én rammeløs glassdør og ett fast glassfelt, vegghengt toalett med innebygd sisterne, servant med speil over, veggskap ca. 30 cm bredt og 120 cm høyt. Dusjbatteriet på bakveggen, samme vegg som toalettet.</small></li>
+<li><span class="tag">Bad</span>Bakveggen fra venstre<small>Lite veggskap ca. 30 cm bredt og 120 cm høyt, servant med speil over, vegghengt toalett med innebygd sisterne, og hjørnedusj ca. 80x80 i høyre hjørne med én rammeløs glassdør og ett fast glassfelt. Dusjbatteriet på bakveggen, samme vegg som toalettet.</small></li>
 <li><span class="tag">Bad</span>Vann og avløp til vaskemaskin på høyre vegg</li>
 <li><span class="tag">Bad</span>Sette opp baderomsinnredningen<small>Servant med skap, speil, veggskap, toalett og dusjvegg. Vi kjøper innredningen.</small></li>
 <li><span class="tag">Bad</span>Fliser 60x60, lys grå<small>Ikke valgt ennå. Vi kjøper fliser og baderomsmøbler.</small></li>
@@ -301,7 +314,7 @@ textarea{min-height:76px;resize:vertical}
 <h2>Rom for rom</h2>
 <div class="rooms">
 <details class="room"><summary>Bad</summary><div class="body">
-<ul><li>Vegger fores ut slik at rør og ledninger skjules</li><li>Fra venstre langs bakveggen: hjørnedusj ca. 80x80, vegghengt toalett, servant med speil over, lite veggskap (ca. 30 cm bredt, 120 cm høyt)</li><li>Dusj med én rammeløs glassdør og ett fast glassfelt. Dusjbatteri på bakveggen, samme vegg som toalettet</li><li>Slukrenne langs gulvet i dusjen, fra bakveggen og fremover, med fall mot renna</li><li>Vaskemaskin på høyre vegg: vann, avløp og stikkontakt</li><li>Nye fliser (60x60), varmekabler i gulv, 4 spotter i tak</li></ul>
+<ul><li>Vegger fores ut slik at rør og ledninger skjules</li><li>Fra venstre langs bakveggen: lite veggskap (ca. 30 cm bredt, 120 cm høyt), servant med speil over, vegghengt toalett og hjørnedusj ca. 80x80 i høyre hjørne</li><li>Dusj med én rammeløs glassdør og ett fast glassfelt. Dusjbatteri på bakveggen, samme vegg som toalettet</li><li>Slukrenne langs gulvet i dusjen, fra bakveggen og fremover, med fall mot renna</li><li>Vaskemaskin på høyre vegg: vann, avløp og stikkontakt</li><li>Nye fliser (60x60), varmekabler i gulv, 4 spotter i tak</li></ul>
 <div class="imgs"><figure><img src="rom-bad1-v2.jpg" alt="Badet sett fra døra, dusj med én glassdør" loading="lazy"><figcaption>Fra døra</figcaption></figure><figure><img src="rom-bad2-v2.jpg" alt="Dusjhjørnet med én glassdør og slukrenne" loading="lazy"><figcaption>Dusjen: én dør og slukrenne</figcaption></figure></div>
 </div></details>
 <details class="room"><summary>Kjøkken</summary><div class="body">
@@ -357,7 +370,7 @@ textarea{min-height:76px;resize:vertical}
 <li>Riving og total oppbygging med våtromsplater, membran, nytt sluk og riktig fall</li>
 <li>Slukrenne langs gulvet i dusjen, fra bakveggen og fremover</li>
 <li>Vegger fores ut slik at rør og ledninger skjules</li>
-<li>Rekkefølge langs bakveggen fra venstre: hjørnedusj ca. 80x80, vegghengt toalett med innebygd sisterne, servant med speil over, lite veggskap (ca. 30 cm bredt, 120 cm høyt, hengt på vegg)</li>
+<li>Rekkefølge langs bakveggen fra venstre: lite veggskap (ca. 30 cm bredt, 120 cm høyt, hengt på vegg), servant med speil over, vegghengt toalett med innebygd sisterne, hjørnedusj ca. 80x80 i høyre hjørne</li>
 <li>Dusj: én rammeløs glassdør og ett fast glassfelt. Dusjbatteri på bakveggen, samme vegg som toalettet</li>
 <li>Vaskemaskin på høyre vegg med vann, avløp og stikkontakt</li>
 <li>Nye vann- og avløpsrør, Sanipex rør-i-rør, tilrettelegging for ventilasjon</li>
