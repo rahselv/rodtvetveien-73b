@@ -49,7 +49,7 @@ details.old img{display:block;width:100%;max-width:520px;margin-top:10px;border-
 .tasks li:first-child{border-top:0;padding-top:0}
 .tasks li small{color:var(--muted);font-size:13px}
 .tag{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--pine)}
-.tasks li .mf{justify-self:start;margin-top:6px;font:600 12.5px var(--body);border:1px solid var(--pine);color:var(--pine);background:transparent;border-radius:8px;padding:5px 10px;cursor:pointer}
+.tasks li .mf{justify-self:start;margin-top:4px;font:600 12px var(--body);border:1px solid var(--line);color:var(--pine);background:transparent;border-radius:999px;padding:3px 10px;cursor:pointer}
 .tasks li.is-done{color:var(--muted)}
 .done-b{justify-self:start;font-size:11.5px;font-weight:700;color:var(--pine-ink);background:var(--pine);border-radius:99px;padding:2px 9px;margin-bottom:2px}
 .done-imgs{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
@@ -95,6 +95,14 @@ textarea{min-height:76px;resize:vertical}
 .send .row .btn{flex:1}
 .hint{font-size:12.5px;color:var(--muted);margin:0}
 @media (max-width:420px){.two{grid-template-columns:1fr}}
+.valg h2{margin-bottom:10px}
+.valg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px}
+.valg-grid>div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:2px}
+.valg-grid span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.valg-grid b{font-size:14.5px}
+.valg-grid small{font-size:12.5px;color:var(--muted)}
+.tasks .grp{list-style:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:14px 0 2px;border-top:0}
+.tasks .grp:first-child{padding-top:0}
 </style>
 
 <div class="bar"><div class="in"><b>Rødtvetveien 73B</b>
@@ -111,6 +119,18 @@ textarea{min-height:76px;resize:vertical}
 <div class="person"><div>Emir Denizci<small>Oppdragsgiver</small></div><a href="tel:+4740171067">401 71 067</a></div>
 </div>
 </header>
+
+<section class="valg" aria-labelledby="valg-h">
+<h2 id="valg-h">Valg i korte trekk</h2>
+<div class="valg-grid">
+<div><span>Gulv</span><b>Nordkapp lys eik laminat</b><small>Kjøpt. Nye lister i hele leiligheten</small></div>
+<div><span>Vegger</span><b>Jotun Marrakesh (1623)</b><small>Snekker maler</small></div>
+<div><span>Tak</span><b>Hvit Jotun</b><small>Snekker maler</small></div>
+<div><span>Kjøkken</span><b>335 cm, 1 høyskap</b><small>Benkeplate i laminat. Rahil og Emir monterer</small></div>
+<div><span>Bad</span><b>Fliser 60x60 lys grå</b><small>Ikke valgt ennå. Slukrenne, én glassdør</small></div>
+<div><span>Lys</span><b>Downlights i takkasser</b><small>Stue og alle soverom. Ingen taklampe</small></div>
+</div>
+</section>
 
 <section class="plan">
 <h2>Ny planløsning</h2>
@@ -230,18 +250,22 @@ textarea{min-height:76px;resize:vertical}
 </div>
 <div class="card">
 <ul class="tasks" data-panel="snekker">
-<li>Ny lettvegg på tvers av stua, mot soverom 3<small>Døra i enden ved vinduet. Ca. 10 cm vegg mot ytterveggen, hengsler mot ytterveggen. Ca. 5 cm passbit mot kjøkkenets høyskap.</small></li>
+<li class="grp">Ombygging</li>
+<li>Ny lettvegg på tvers av stua, mot soverom 3<small>Ca. 5 cm passbit mot kjøkkenets høyskap.</small></li>
+<li>Montere døra til soverom 3<small>I enden av lettveggen ved vinduet. Ca. 10 cm vegg mot ytterveggen, hengsler mot ytterveggen.</small></li>
 <li>Flytte døra fra entré til stue 60 cm</li>
-<li>Takkasser rundt hele stua, også over vinduene og balkongdøra<small>Med downlights i kassene. Ingen kasse over kjøkkenet, der går overskapene til taket.</small></li>
-<li>Takkasser rundt i soverom 1, 2 og 3, også over vinduene<small>Med downlights i kassene.</small></li>
-<li>Nedsenket himling i entré og gang</li>
-<li>Sparkle vegger i stue, soverom og gang</li>
-<li>Male vegger og tak<small>Vegger: Jotun Marrakesh (1623). Tak: hvit Jotun. Etter sparkling, før laminat og lister.</small></li>
 <li>Fikse rammene rundt dørene</li>
+<li>Lage overføring for ventilatoren til det nye kjøkkenet<small>Kanal fra ventilatoren i overskapet til eksisterende avtrekk.</small></li>
+<li class="grp">Tak</li>
+<li>Takkasser rundt hele stua, også over vinduene og balkongdøra<small>Med downlights. Ingen kasse over kjøkkenet, der går overskapene til taket.</small></li>
+<li>Takkasser rundt i soverom 1, 2 og 3, også over vinduene<small>Med downlights.</small></li>
+<li>Nedsenket himling i entré og gang</li>
+<li class="grp">Overflater (i denne rekkefølgen)</li>
+<li>Sparkle vegger i stue, soverom og gang</li>
+<li>Male vegger og tak<small>Vegger: Jotun Marrakesh (1623). Tak: hvit Jotun.</small></li>
 <li>Male innerdørene og kappe dem under</li>
-<li>Montere døra til soverom 3<small>I enden av den nye lettveggen ved vinduet. Ca. 10 cm vegg mot ytterveggen, hengsler mot ytterveggen.</small></li>
-<li>Lage overføring for ventilatoren til det nye kjøkkenet<small>Avtrekkskanal fra ventilatoren i overskapet til eksisterende avtrekk.</small></li>
-<li>Laminat og nye lister i hele leiligheten<small>Nordkapp lys eik. Laminatet er kjøpt. Vi kjøper listene.</small></li>
+<li>Legge laminat og nye lister i hele leiligheten<small>Nordkapp lys eik. Laminatet er kjøpt. Vi kjøper listene.</small></li>
+<li class="grp">Ferdig</li>
 <li data-done="1">Rive det gamle kjøkkenet</li>
 </ul>
 <ul class="tasks" data-panel="selv" hidden>
@@ -282,7 +306,7 @@ textarea{min-height:76px;resize:vertical}
 <div class="imgs"><figure><img src="rom-bad1-v2.jpg" alt="Badet sett fra døra, dusj med én glassdør" loading="lazy"><figcaption>Fra døra</figcaption></figure><figure><img src="rom-bad2-v2.jpg" alt="Dusjhjørnet med én glassdør og slukrenne" loading="lazy"><figcaption>Dusjen: én dør og slukrenne</figcaption></figure></div>
 </div></details>
 <details class="room"><summary>Kjøkken</summary><div class="body">
-<ul><li>Kjøkken langs den nye lettveggen i stua (leverandør ikke bestemt)</li><li><b>Veggen er 335 cm.</b> Fra døra: 5 cm fylling, høyskap 60 med integrert kjøl/frys, vaskeskap 60 med vask, oppvaskmaskin 60, stekeovn med platetopp 60, skuffeskap 60 og 30 cm fylling inn mot badveggen</li><li>Fra døra til soverom 3 (ved vinduet) og innover: ca. 5 cm passbit, høyskap med integrert kjøl/frys, vask, oppvaskmaskin, koketopp med ovn under</li><li>Overskap til taket, ventilator integrert i overskap, LED-list under overskapene</li><li>Snekker lager overføring/kanal for ventilatoren til avtrekket</li><li>Ingen spotter i taket over kjøkkenet</li><li>Rørlegger: vann og avløp til vask og oppvaskmaskin, Waterguard</li><li>Elektriker: kurser til kombiskap, ovn, koketopp, oppvaskmaskin og ventilator. LED-stripe under overskapene</li><li>Kjøkkenet monteres av Rahil og Emir</li></ul>
+<ul><li><b>335 cm</b> langs lettveggen. Fra døra: 5 cm fylling, høyskap 60 med integrert kjøl/frys, vask 60, oppvaskmaskin 60, stekeovn med platetopp 60, skuffer 60 og 30 cm fylling mot badveggen</li><li>Overskap til taket med ventilator over platetoppen og LED under. Ingen spotter over kjøkkenet</li><li>Benkeplate i laminat. Leverandør er ikke bestemt</li><li>Snekker lager ventilatorkanalen. Rørlegger tar vann og avløp med Waterguard. Elektriker tar kurser og LED</li><li>Rahil og Emir monterer kjøkkenet</li></ul>
 <div class="imgs"><figure><img src="rom-kjokken-335.jpg" alt="Valgt kjøkkenløsning, 335 cm med høyskap, vegger i Marrakesh og gulv i lys eik" loading="lazy"><figcaption>Valgt løsning: 335 cm, vegger i Marrakesh, gulv i lys eik</figcaption></figure></div>
 </div></details>
 <details class="room"><summary>Stue</summary><div class="body">
@@ -438,7 +462,7 @@ const fagNavn={snekker:"Snekker",ror:"Rørlegger",el:"Elektriker",selv:"Rahil og
 const tittel=li=>{const c=li.cloneNode(true);c.querySelectorAll("small,.tag,.done-b,.mf").forEach(x=>x.remove());return c.textContent.trim()};
 const slug=s=>s.toLowerCase().normalize("NFD").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60);
 const oppgaver=[];
-document.querySelectorAll("ul.tasks").forEach(ul=>ul.querySelectorAll("li").forEach(li=>{
+document.querySelectorAll("ul.tasks").forEach(ul=>ul.querySelectorAll("li:not(.grp)").forEach(li=>{
   const t=tittel(li),fag=fagNavn[ul.dataset.panel]||"",id=slug(fag+" "+t);li.dataset.id=id;
   if(li.dataset.done){li.insertAdjacentHTML("afterbegin",'<span class="done-b">✓ Ferdig</span>');li.classList.add("is-done");return}
   if(li.querySelector(".tag")?.textContent==="Åpent")return;
